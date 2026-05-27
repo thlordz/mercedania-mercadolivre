@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+*{box-sizing:border-box}:root{--bg:#080909;--panel:rgba(255,255,255,.052);--line:rgba(255,255,255,.095);--text:#f4f4f4;--muted:#9b9b9b;--green:#6eca75;--radius:22px}body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:radial-gradient(circle at 26% 0%,rgba(255,255,255,.055),transparent 28%),radial-gradient(circle at 90% 12%,rgba(255,255,255,.035),transparent 26%),var(--bg);overflow-x:hidden}body:before{content:"";position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:42px 42px;mask-image:radial-gradient(circle at center,black,transparent 80%);pointer-events:none}.app-shell{min-height:100vh;display:grid;grid-template-columns:230px 1fr}.sidebar{position:sticky;top:0;height:100vh;padding:28px 16px;border-right:1px solid var(--line);background:rgba(0,0,0,.22);backdrop-filter:blur(24px);display:flex;flex-direction:column;animation:slideIn .7s ease both}.brand{text-align:center;margin-bottom:28px}.brand-icon{width:58px;height:58px;margin:0 auto 16px;border:2px solid rgba(255,255,255,.9);border-radius:16px;display:grid;place-items:center;font-size:32px;transform:rotate(12deg)}.brand h1{font-size:18px;margin:0}.brand p,.sync-time p{margin:8px 0 0;color:var(--muted);font-size:12px}.menu{display:grid;gap:8px}.menu-item{border:0;color:#d8d8d8;background:transparent;border-radius:14px;padding:14px 16px;text-align:left;cursor:pointer;font-size:14px;display:flex;gap:12px;transition:.25s ease}.menu-item:hover,.menu-item.active{background:rgba(255,255,255,.095);transform:translateX(5px);color:white}.sidebar-footer{margin-top:auto;display:grid;gap:20px}.theme-pill{display:flex;justify-content:space-between;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px;font-size:13px}.toggle{width:39px;height:22px;border-radius:999px;background:white}.content{padding:28px 34px 40px}.topbar{display:grid;grid-template-columns:360px 1fr auto;gap:26px;align-items:center;margin-bottom:26px;animation:fadeDown .7s ease both}.topbar h2{margin:0;font-size:32px}.topbar p{margin:6px 0 0;color:var(--muted)}.search{height:56px;border:1px solid var(--line);border-radius:18px;display:flex;align-items:center;padding:0 18px;gap:12px;background:rgba(255,255,255,.025);transition:.25s ease}.search:focus-within{border-color:rgba(255,255,255,.28);box-shadow:0 0 0 5px rgba(255,255,255,.035)}.search input{flex:1;background:transparent;border:0;outline:0;color:white;font-size:14px}.search kbd{color:var(--muted);font-size:12px}.actions{display:flex;gap:12px}button{font-family:inherit}.btn,.icon-btn,.ghost-btn,.wide-btn,.mini-select{border:1px solid var(--line);background:rgba(255,255,255,.04);color:white;border-radius:16px;padding:14px 18px;cursor:pointer;transition:.22s ease}.btn:hover,.icon-btn:hover,.ghost-btn:hover,.wide-btn:hover,.mini-select:hover{transform:translateY(-2px);background:rgba(255,255,255,.08)}.icon-btn{width:54px}.hero-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}.hero-card,.small-card,.panel,.other-panel{border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.078),rgba(255,255,255,.03));border-radius:var(--radius);box-shadow:0 20px 60px rgba(0,0,0,.20);backdrop-filter:blur(18px);transition:.25s ease}.hero-card{min-height:160px;padding:26px;display:grid;grid-template-columns:70px 1fr 170px;gap:18px;align-items:center;animation:popIn .55s ease both}.hero-card:hover,.small-card:hover,.panel:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.20)}.hero-icon,.small-icon{border:1px solid var(--line);background:rgba(255,255,255,.045);display:grid;place-items:center}.hero-icon{width:62px;height:62px;border-radius:18px;font-size:28px}.hero-card small,.small-card small,.section-title span{color:var(--muted)}.hero-card h3{margin:12px 0;font-size:31px}.hero-card h3.green{color:var(--green)}.hero-card p,.small-card p{margin:0;color:#d3d3d3;font-size:12px}.sparkline{opacity:.75}.sparkline path{fill:none;stroke:white;stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:250;stroke-dashoffset:250;animation:draw 1.4s ease forwards}.other-panel{padding:18px;margin-bottom:16px}.other-panel h3{margin:0 0 14px;font-size:15px}.small-cards{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr));gap:14px}.small-card{padding:17px;min-height:96px;display:grid;grid-template-columns:44px 1fr 70px;gap:12px;align-items:center;opacity:.58;filter:saturate(.15);animation:popIn .55s ease both}.small-card:hover{opacity:.85;filter:saturate(.3)}.small-icon{width:42px;height:42px;border-radius:14px}.small-card h4{margin:5px 0;font-size:20px}.small-spark path{fill:none;stroke:white;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:120;stroke-dashoffset:120;animation:draw 1.5s ease forwards}.panel{padding:20px}.section-title{display:flex;justify-content:space-between;align-items:center}.section-title h3,.panel h3{margin:0;font-size:16px}.promotions{margin-bottom:16px}.promo-grid{margin-top:20px;display:grid;grid-template-columns:repeat(6,1fr)}.promo-item{padding:0 24px;border-right:1px solid var(--line)}.promo-item:last-child{border-right:0}.promo-item span{font-size:13px}.promo-item strong{display:block;margin-top:12px;font-size:24px;color:white}.promo-expired{color:#ff625b}.promo-today{color:#ffb23f}.promo-tomorrow{color:#f2df4a}.promo-programmed{color:#7ca9e8}.promo-active{color:#68c56e}.promo-none{color:#a2a2a2}.dashboard-grid{display:grid;grid-template-columns:1.4fr .9fr 1.1fr 1.05fr;gap:16px}.chart-card{min-height:315px}.line-chart{margin-top:24px;height:245px;position:relative}.line-chart svg{width:100%;height:205px;overflow:visible}.grid-line{stroke:rgba(255,255,255,.055);stroke-width:1}.area{fill:url(#areaGradient);opacity:0;animation:fadeIn 1s ease .8s both}.line{fill:none;stroke:white;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1200;stroke-dashoffset:1200;animation:draw 1.8s ease forwards}.months{display:flex;justify-content:space-between;color:#cfcfcf;font-size:12px}.cities-list{margin:18px 0;display:grid;gap:14px}.city-row{display:grid;grid-template-columns:26px 1fr 42px;align-items:center;gap:10px;font-size:12px}.rank{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.10);display:grid;place-items:center}.progress{height:5px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:7px}.progress i{display:block;height:100%;width:var(--w);background:white;border-radius:inherit;animation:growBar 1s ease both}.bar-chart{margin:25px 0 28px;height:185px;display:flex;align-items:end;gap:10px}.bar{flex:1;height:var(--h);border-radius:8px 8px 3px 3px;background:linear-gradient(to top,rgba(255,255,255,.18),rgba(255,255,255,.70));animation:barUp .8s ease both;position:relative}.bar span{position:absolute;top:-21px;left:50%;transform:translateX(-50%);font-size:10px;color:#e1e1e1}.sales-list{display:grid;gap:12px;margin:18px 0}.sale{padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);transition:.22s ease}.sale:hover{transform:scale(1.02);background:rgba(255,255,255,.06)}.sale-top{display:flex;justify-content:space-between;gap:12px;font-size:12px}.sale strong{font-size:14px}.sale p{margin:7px 0 0;color:var(--muted);font-size:12px}.status{display:inline-flex;align-items:center;gap:5px;margin-top:9px;padding:4px 8px;border-radius:999px;font-size:11px}.status.done{background:rgba(104,197,110,.13);color:#68c56e}.status.sent{background:rgba(124,169,232,.13);color:#7ca9e8}.status:before{content:"";width:7px;height:7px;background:currentColor;border-radius:50%;box-shadow:0 0 12px currentColor}.wide-btn{width:100%}.text-btn{background:transparent;border:0;color:#bfbfbf;cursor:pointer}.reveal{animation:fadeUp .7s ease both}.syncing{pointer-events:none;opacity:.7}@keyframes slideIn{from{opacity:0;transform:translateX(-28px)}to{opacity:1;transform:translateX(0)}}@keyframes fadeDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}@keyframes popIn{from{opacity:0;transform:scale(.94) translateY(18px)}to{opacity:1;transform:scale(1) translateY(0)}}@keyframes draw{to{stroke-dashoffset:0}}@keyframes fadeIn{to{opacity:1}}@keyframes growBar{from{width:0}}@keyframes barUp{from{height:0;opacity:0}to{opacity:1}}@media(max-width:1350px){.hero-cards{grid-template-columns:1fr}.hero-card{grid-template-columns:70px 1fr 160px}.small-cards{grid-template-columns:repeat(2,1fr)}.dashboard-grid{grid-template-columns:1fr 1fr}}@media(max-width:900px){.app-shell{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.topbar{grid-template-columns:1fr}.promo-grid{grid-template-columns:repeat(2,1fr);gap:20px}.dashboard-grid{grid-template-columns:1fr}}
+
+/* Ajustes: contador estável, cards inferiores esticados e tooltip do gráfico */
+.counter{
+  display:inline-block;
+  width:max-content;
+  text-align:left;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
+}
+.dashboard-grid{align-items:stretch}.dashboard-grid>.panel{height:100%;display:flex;flex-direction:column}.chart-card .line-chart,.bars .bar-chart,.latest .sales-list,.cities .cities-list{flex:1}.chart-card .line-chart{display:flex;flex-direction:column;justify-content:flex-end}.chart-card .line-chart svg{flex:1;min-height:205px}.cities .wide-btn,.bars .wide-btn,.latest .wide-btn{margin-top:auto}.bars .bar-chart{min-height:260px;margin-bottom:42px;padding-top:34px;align-items:end}.bar{min-width:38px;cursor:pointer}.bar span{top:-32px;font-size:9px;opacity:.72;transform:translateX(-50%) scale(.92);transform-origin:center;transition:.2s ease}.bar small{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted)}.bar:hover{background:linear-gradient(to top,rgba(255,255,255,.24),rgba(255,255,255,.88));box-shadow:0 0 30px rgba(255,255,255,.10)}.bar:hover span{opacity:1;transform:translateX(-50%) scale(1)}.bar:after{content:attr(data-tooltip);position:absolute;left:50%;bottom:calc(100% + 52px);transform:translateX(-50%) translateY(8px);padding:9px 11px;border:1px solid var(--line);border-radius:12px;background:rgba(8,9,9,.92);backdrop-filter:blur(12px);color:white;font-size:12px;white-space:nowrap;opacity:0;pointer-events:none;transition:.2s ease;box-shadow:0 12px 30px rgba(0,0,0,.35);z-index:5}.bar:hover:after{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:1350px){.bars .bar-chart{min-height:230px}.bar span{display:none}.bar:hover span{display:block}}
+
+/* Correções finais */
+.menu-item i{width:18px;text-align:center}.brand-icon i{font-size:26px}.btn i,.mini-select i,.icon-btn i,.section-title i,.panel h3 i{margin-right:7px}.icon-btn i{margin:0}.mini-select{display:inline-flex;align-items:center;gap:8px;line-height:1}.mini-select i{margin:0;font-size:11px}.counter{display:inline-block;width:max-content;text-align:left;font-variant-numeric:tabular-nums;white-space:nowrap}.small-cards{align-items:stretch}.small-card{grid-template-columns:42px minmax(0,1fr) 70px;align-items:center}.small-content{min-width:0}.small-card small{display:block;line-height:1.2;white-space:normal}.small-card h4{line-height:1.05}.small-card p{line-height:1.25;max-width:120px}.small-spark{width:70px;height:42px;justify-self:end}.hero-icon i,.small-icon i{font-size:18px}.hero-icon i{font-size:25px}.dashboard-grid{align-items:stretch}.dashboard-grid>.panel{height:100%;display:flex;flex-direction:column}.chart-card .line-chart,.bars .bar-chart,.latest .sales-list,.cities .cities-list{flex:1}.cities .wide-btn,.bars .wide-btn,.latest .wide-btn{margin-top:auto}.chart-card{min-height:440px}.line-chart{height:auto;min-height:335px;display:flex;flex-direction:column;justify-content:flex-end}.line-chart svg{flex:1;width:100%;min-height:285px;overflow:visible}.chart-point circle{fill:white;stroke:rgba(8,9,9,.8);stroke-width:2;opacity:.95;transition:.2s ease}.chart-point text{fill:#f4f4f4;font-size:0;paint-order:stroke;stroke:rgba(8,9,9,.75);stroke-width:3;opacity:0;pointer-events:none;transition:.2s ease}.chart-point:hover text,.chart-point:focus text{font-size:13px;opacity:1}.chart-point:hover circle,.chart-point:focus circle{r:7}.bar-chart{margin:25px 0 34px;height:260px;min-height:260px;display:flex;align-items:end;gap:10px;padding-top:26px}.bar{min-width:36px;cursor:pointer}.bar span{top:-25px;font-size:10px;opacity:.82;transition:.2s ease}.bar small{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--muted)}.bar:hover{background:linear-gradient(to top,rgba(255,255,255,.24),rgba(255,255,255,.88));box-shadow:0 0 30px rgba(255,255,255,.10)}.bar:after{content:attr(data-tooltip);position:absolute;left:50%;bottom:calc(100% + 40px);transform:translateX(-50%) translateY(8px);padding:9px 11px;border:1px solid var(--line);border-radius:12px;background:rgba(8,9,9,.92);backdrop-filter:blur(12px);color:white;font-size:12px;white-space:nowrap;opacity:0;pointer-events:none;transition:.2s ease;box-shadow:0 12px 30px rgba(0,0,0,.35);z-index:5}.bar:hover:after{opacity:1;transform:translateX(-50%) translateY(0)}.reveal,.hero-card,.small-card,.topbar,.sidebar,.line,.area,.sparkline path,.small-spark path,.progress i,.bar{animation-play-state:running!important}@media(max-width:1350px){.chart-card{min-height:380px}.line-chart{min-height:295px}.bar-chart{min-height:230px}.small-card p{max-width:none}}@media(max-width:900px){.small-cards{grid-template-columns:1fr}.bar span{display:none}.bar:hover span{display:block}}
+
+/* Correção do gráfico de receita: o SVG continua preenchendo o card, mas as bolinhas e o tooltip viraram HTML absoluto para não esticar junto com o preserveAspectRatio=none. */
+.line-chart{position:relative;overflow:visible}
+.line-plot{position:relative;flex:1;width:100%;min-height:285px}
+.line-plot svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.chart-markers{position:absolute;inset:0;pointer-events:none;z-index:4}
+.chart-marker{position:absolute;left:var(--x);top:var(--y);width:10px;height:10px;padding:0;border:2px solid rgba(8,9,9,.82);border-radius:50%;background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.12);transform:translate(-50%,-50%);cursor:pointer;pointer-events:auto;transition:transform .18s ease,box-shadow .18s ease}
+.chart-marker:hover,.chart-marker:focus{transform:translate(-50%,-50%) scale(1.35);box-shadow:0 0 0 5px rgba(255,255,255,.12);outline:0}
+.chart-marker span{position:absolute;left:50%;bottom:calc(100% + 12px);transform:translateX(-50%) translateY(6px);padding:8px 10px;border:1px solid rgba(255,255,255,.18);border-radius:10px;background:rgba(8,9,9,.94);color:#fff;font-size:12px;font-weight:700;line-height:1;white-space:nowrap;opacity:0;pointer-events:none;transition:.18s ease;box-shadow:0 12px 30px rgba(0,0,0,.35)}
+.chart-marker:hover span,.chart-marker:focus span{opacity:1;transform:translateX(-50%) translateY(0)}
+.chart-point{display:none}
+
+/* Correções visuais: tooltips acima de tudo e sem manchas no hover */
+.content,
+.dashboard-grid,
+.dashboard-grid > .panel,
+.chart-card,
+.bars,
+.latest,
+.line-chart,
+.line-plot,
+.bar-chart{
+  overflow: visible;
+}
+
+.dashboard-grid > .panel,
+.other-panel,
+.small-card{
+  position: relative;
+}
+
+.dashboard-grid > .panel{
+  z-index: 1;
+  isolation: isolate;
+}
+
+.dashboard-grid > .panel:hover{
+  z-index: 80;
+  transform: none;
+  border-color: rgba(255,255,255,.18);
+}
+
+.line-plot{
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.chart-markers{
+  z-index: 120;
+}
+
+.chart-marker{
+  z-index: 121;
+}
+
+.chart-marker:hover,
+.chart-marker:focus{
+  z-index: 999;
+}
+
+.chart-marker span,
+.bar:after{
+  z-index: 9999;
+  background: rgba(6,7,7,.98);
+  border-color: rgba(255,255,255,.22);
+  box-shadow: 0 18px 45px rgba(0,0,0,.65);
+}
+
+/* No gráfico de vendas, o número fixo poluía e brigava com o popup. Agora só aparece no hover. */
+.bar span{
+  opacity: 0;
+  visibility: hidden;
+}
+
+.bar:hover span{
+  opacity: 0;
+  visibility: hidden;
+}
+
+.bar:hover{
+  z-index: 200;
+}
+
+.bar:hover:after{
+  z-index: 9999;
+}
+
+/* Evita a faixa/mancha branca causada pelo hover + backdrop-filter nos cards inferiores. */
+.panel:hover,
+.hero-card:hover,
+.small-card:hover{
+  filter: none;
+}
+
+.other-panel,
+.small-cards,
+.small-card{
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.small-card::before,
+.small-card::after,
+.panel::before,
+.panel::after{
+  pointer-events: none;
+}
+
+/* Correção final do flash/faixa branca no hover: era causado pela combinação de
+   backdrop-filter + filter/opacity + transform animado nos cards. */
+.hero-card,
+.small-card,
+.panel,
+.other-panel,
+.sale{
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  will-change: auto !important;
+  overflow: hidden;
+}
+
+.hero-card:hover,
+.small-card:hover,
+.panel:hover,
+.other-panel:hover,
+.sale:hover{
+  transform: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+  background: linear-gradient(145deg,rgba(255,255,255,.078),rgba(255,255,255,.03)) !important;
+  border-color: rgba(255,255,255,.16) !important;
+}
+
+.small-card{
+  transition: border-color .18s ease, background .18s ease, box-shadow .18s ease !important;
+}
+
+.sale{
+  transition: border-color .18s ease, background .18s ease !important;
+}
+
+.sale:hover{
+  background: rgba(255,255,255,.045) !important;
+}
+
+/* mantém os popups por cima sem cortar */
+.chart-card,
+.bars,
+.line-chart,
+.line-plot,
+.bar-chart{
+  overflow: visible !important;
+}
+
+.chart-marker span,
+.bar:after{
+  z-index: 99999 !important;
+}
