@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão de Vendas - Anúncios</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css" />
+  <link rel="stylesheet" href="../assets/css/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/anuncios.css" />
+</head>
+<body>
+  <div class="app d-flex">
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Gestão de Vendas</span>
+      </div>
+
+      <nav class="menu">
+        <a class="menu-item" data-page="inicio" href="inicio.html"><i class="fa-solid fa-house"></i> Início</a>
+        <a class="menu-item" data-page="promocoes" href="promocoes.html"><i class="fa-solid fa-percent"></i> Promoções</a>
+        <a class="menu-item active" data-page="anuncios" href="anuncios.html"><i class="fa-solid fa-tag"></i> Anúncios</a>
+        <a class="menu-item" data-page="vendas" href="vendas.html"><i class="fa-solid fa-cart-shopping"></i> Vendas</a>
+        <a class="menu-item" data-page="simulador" href="simulador.html"><i class="fa-solid fa-calculator"></i> Simulador de Custos</a>
+      </nav>
+    </aside>
+
+    <main class="content anuncios-content">
+      <div class="page-header">
+        <div>
+          <h1>Anúncios</h1>
+          <p>Gerencie preços, estoque e desempenho dos seus anúncios.</p>
+        </div>
+
+        <button class="btn-reactivate" data-bs-toggle="modal" data-bs-target="#priceModal">
+          <i class="fa-solid fa-rotate"></i>
+          Atualizar Preços <span>278</span>
+        </button>
+      </div>
+
+      <section class="ad-kpi-grid">
+        <div class="ad-kpi-card active-soft">
+          <div class="status-icon"><i class="fa-solid fa-chart-line"></i></div>
+          <div>
+            <p>Anúncios ativos</p>
+            <strong>1.248</strong>
+            <span>78,5% do total</span>
+          </div>
+        </div>
+
+        <div class="ad-kpi-card expired-soft">
+          <div class="status-icon"><i class="fa-solid fa-eye-slash"></i></div>
+          <div>
+            <p>Anúncios inativos</p>
+            <strong>342</strong>
+            <span>21,5% do total</span>
+          </div>
+        </div>
+
+        <div class="ad-kpi-card premium-soft">
+          <div class="status-icon"><i class="fa-solid fa-crown"></i></div>
+          <div>
+            <p>Premium</p>
+            <strong>1.056</strong>
+            <span>66,3% do total</span>
+          </div>
+        </div>
+
+        <div class="ad-kpi-card scheduled-soft">
+          <div class="status-icon"><i class="fa-solid fa-tag"></i></div>
+          <div>
+            <p>Clássico</p>
+            <strong>534</strong>
+            <span>33,7% do total</span>
+          </div>
+        </div>
+
+        <div class="ad-kpi-card warning-soft">
+          <div class="status-icon"><i class="fa-solid fa-clock"></i></div>
+          <div>
+            <p>Preços desatualizados</p>
+            <strong>278</strong>
+            <span>Há mais de 6 meses</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="filter-panel anuncios-filter-panel">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Buscar por código, SKU ou nome do anúncio...">
+        </div>
+
+        <div class="filter-control">
+          <label>Status</label>
+          <select>
+            <option>Todos</option>
+            <option>Ativo</option>
+            <option>Inativo</option>
+          </select>
+        </div>
+
+        <div class="filter-control">
+          <label>Tipo</label>
+          <select>
+            <option>Todos</option>
+            <option>Premium</option>
+            <option>Clássico</option>
+          </select>
+        </div>
+
+        <div class="filter-control">
+          <label>Estoque</label>
+          <select>
+            <option>Todos</option>
+            <option>Com estoque</option>
+            <option>Estoque baixo</option>
+            <option>Sem estoque</option>
+          </select>
+        </div>
+
+        <button class="btn-clear"><i class="fa-solid fa-filter"></i> Filtros</button>
+        <button class="btn-clear"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar</button>
+      </section>
+
+      <div class="anuncios-layout">
+        <section class="panel table-panel anuncios-table-wrap">
+          <div class="table-responsive">
+            <table class="table align-middle promo-table anuncios-table">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Código</th>
+                  <th>SKU</th>
+                  <th>Nome</th>
+                  <th>Tipo</th>
+                  <th>Preço anunciado</th>
+                  <th>Líquido</th>
+                  <th>Estoque</th>
+                  <th>Vendidos</th>
+                  <th class="text-center">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="selected-row">
+                  <td><span class="badge text-bg-success-light">Ativo</span></td>
+                  <td>#6818088748</td>
+                  <td>M007716</td>
+                  <td class="product-name">Radiador Óleo Sprinter 310/312 MWM</td>
+                  <td><span class="badge badge-premium"><i class="fa-solid fa-crown"></i> Premium</span></td>
+                  <td>R$ 199,90</td>
+                  <td class="green fw-bold">R$ 139,72</td>
+                  <td>12</td>
+                  <td>45</td>
+                  <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                </tr>
+                <tr>
+                  <td><span class="badge text-bg-success-light">Ativo</span></td>
+                  <td>#6818088750</td>
+                  <td>M007717</td>
+                  <td class="product-name">Kit Embreagem Sprinter 310/312 MWM</td>
+                  <td><span class="badge badge-premium"><i class="fa-solid fa-crown"></i> Premium</span></td>
+                  <td>R$ 349,90</td>
+                  <td class="green fw-bold">R$ 244,55</td>
+                  <td>8</td>
+                  <td>32</td>
+                  <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                </tr>
+                <tr>
+                  <td><span class="badge text-bg-success-light">Ativo</span></td>
+                  <td>#6818088751</td>
+                  <td>M007718</td>
+                  <td class="product-name">Bomba D’água Sprinter 310/312 MWM</td>
+                  <td><span class="badge badge-classic"><i class="fa-solid fa-tag"></i> Clássico</span></td>
+                  <td>R$ 249,90</td>
+                  <td class="green fw-bold">R$ 174,93</td>
+                  <td>10</td>
+                  <td>18</td>
+                  <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                </tr>
+                <tr>
+                  <td><span class="badge text-bg-danger-light">Inativo</span></td>
+                  <td>#6818088752</td>
+                  <td>M007719</td>
+                  <td class="product-name">Correia Dentada Sprinter 310/312 MWM</td>
+                  <td><span class="badge badge-classic"><i class="fa-solid fa-tag"></i> Clássico</span></td>
+                  <td>R$ 129,90</td>
+                  <td class="green fw-bold">R$ 90,93</td>
+                  <td>0</td>
+                  <td>9</td>
+                  <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                </tr>
+                <tr>
+                  <td><span class="badge text-bg-success-light">Ativo</span></td>
+                  <td>#6818088753</td>
+                  <td>M007720</td>
+                  <td class="product-name">Termostato Sprinter 310/312 MWM</td>
+                  <td><span class="badge badge-classic"><i class="fa-solid fa-tag"></i> Clássico</span></td>
+                  <td>R$ 159,90</td>
+                  <td class="green fw-bold">R$ 111,93</td>
+                  <td>23</td>
+                  <td>21</td>
+                  <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                </tr>
+                <tr>
+                  <td><span class="badge text-bg-success-light">Ativo</span></td>
+                  <td>#6818088754</td>
+                  <td>M007721</td>
+                  <td class="product-name">Sensor Temperatura Sprinter 310/312 MWM</td>
+                  <td><span class="badge badge-classic"><i class="fa-solid fa-tag"></i> Clássico</span></td>
+                  <td>R$ 99,90</td>
+                  <td class="green fw-bold">R$ 69,93</td>
+                  <td>17</td>
+                  <td>12</td>
+                  <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                </tr>
+                <tr>
+                  <td><span class="badge text-bg-success-light">Ativo</span></td>
+                  <td>#6818088755</td>
+                  <td>M007722</td>
+                  <td class="product-name">Mangueira Intercooler Sprinter 310/312</td>
+                  <td><span class="badge badge-premium"><i class="fa-solid fa-crown"></i> Premium</span></td>
+                  <td>R$ 89,90</td>
+                  <td class="green fw-bold">R$ 62,93</td>
+                  <td>35</td>
+                  <td>16</td>
+                  <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer">
+            <span>Mostrando 1 a 7 de 1.590 anúncios</span>
+            <div class="pagination-wrap">
+              <select class="page-size"><option>10 por página</option></select>
+              <button><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="active">1</button>
+              <button>2</button>
+              <button>3</button>
+              <span>...</span>
+              <button>159</button>
+              <button><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </section>
+
+        <aside class="ad-details-panel">
+          <div class="details-header">
+            <h5>Detalhes do anúncio</h5>
+            <button><i class="fa-solid fa-xmark"></i></button>
+          </div>
+
+          <div class="ad-product-card">
+            <div class="ad-img"><i class="fa-solid fa-box"></i></div>
+            <div>
+              <div class="d-flex gap-2 mb-2">
+                <span class="badge text-bg-success-light">Ativo</span>
+                <span class="badge badge-premium"><i class="fa-solid fa-crown"></i> Premium</span>
+              </div>
+              <h6>Radiador Óleo Sprinter 310/312 MWM</h6>
+              <p>#6818088748 · M007716</p>
+              <a href="#">Ver no Mercado Livre <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            </div>
+          </div>
+
+          <div class="details-list">
+            <div><span>Valor total</span><strong>R$ 150,00</strong></div>
+            <div><span>Frete</span><strong>R$ 25,00</strong></div>
+            <div><span>Tipo de anúncio</span><strong>Premium</strong></div>
+            <div><span>Custo fixo</span><strong>R$ 12,00</strong></div>
+            <div><span>Desconto</span><strong>5%</strong></div>
+            <div><span>Preço anunciado</span><strong>R$ 199,90</strong></div>
+            <div class="highlight-total"><span>Líquido a receber</span><strong>R$ 139,72</strong></div>
+            <div><span>Estoque</span><strong>12</strong></div>
+            <div><span>Vendidos</span><strong>45</strong></div>
+          </div>
+
+          <div class="last-update-box">
+            <span>Última atualização do preço</span>
+            <strong>12/11/2024</strong>
+          </div>
+
+          <button class="btn-edit-ad"><i class="fa-solid fa-pen"></i> Editar anúncio</button>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal fade" id="priceModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content reactivation-modal">
+        <div class="modal-header yellow-modal-header">
+          <div class="modal-title-wrap">
+            <div class="modal-icon"><i class="fa-solid fa-clock"></i></div>
+            <div>
+              <h5 class="modal-title fw-bold">Atualizar preços antigos</h5>
+              <p>Anúncios com preço desatualizado há mais de 6 meses</p>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="reactivation-progress">
+            <strong>Anúncio <span>1</span> de <span>278</span></strong>
+            <div class="progress"><div class="progress-bar"></div></div>
+          </div>
+
+          <div class="price-update-product">
+            <div class="product-icon"><i class="fa-solid fa-tag"></i></div>
+            <div class="flex-grow-1">
+              <div class="d-flex justify-content-between align-items-start gap-3">
+                <div>
+                  <small>Código: #6818088748</small>
+                  <small>SKU: M007716</small>
+                  <h6>Radiador Óleo Sprinter 310/312 MWM</h6>
+                </div>
+                <span class="badge badge-premium"><i class="fa-solid fa-crown"></i> Premium</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="price-update-stats">
+            <div><small>Preço anunciado</small><strong>R$ 199,90</strong></div>
+            <div><small>Líquido a receber</small><strong class="green">R$ 139,72</strong></div>
+            <div><small>Última atualização</small><strong>12/11/2024</strong><span>6 meses atrás</span></div>
+          </div>
+
+          <div class="shortcut-box">
+            <p><i class="fa-solid fa-circle-info me-2"></i>Ao avançar, o link do anúncio será aberto automaticamente.</p>
+            <p>Depois de atualizar no Mercado Livre, volte e pressione <kbd>ENTER</kbd> para marcar como atualizado.</p>
+          </div>
+        </div>
+        <div class="modal-footer border-0 px-4 pb-4 pt-0">
+          <button type="button" class="btn btn-outline-secondary">Finalizar</button>
+          <button type="button" class="btn-next flex-grow-1">Próximo (ENTER)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/global.js"></script>
+  <script src="../assets/js/anuncios.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+Gestão de Vendas Mercado Livre
+
+Sistema desktop (Electron) focado em gerenciamento operacional de anúncios e vendas do Mercado Livre, substituindo gradualmente a planilha atual.
+
+Objetivo
+
+Centralizar em um único local:
+
+Controle de anúncios
+Controle de promoções
+Controle de vendas
+Simulação de custos
+Automações para tarefas repetitivas
+
+Identidade visual baseada nas cores do Mercado Livre (amarelo, branco e cinza claro).
+
+Menu Principal
+🏠 Início
+
+Dashboard com indicadores gerais.
+
+Widgets:
+
+Faturamento total
+Vendas
+Promoções ativas
+Reclamações
+
+Abaixo:
+
+Promoções próximas de expirar
+Vendas recentes
+🏷️ Promoções
+
+Controle de promoções dos anúncios.
+
+Widgets:
+
+Expirado
+Programado
+Ativado
+Sem Promoção
+
+Funcionalidades:
+
+Pesquisa
+Filtros
+Tabela de promoções
+
+Campos:
+
+Status
+Código do produto
+Nome do anúncio
+Data início
+Data fim
+Preço
+Desconto
+Preço final
+Automação: Reativar promoções expiradas
+
+Fluxo:
+
+Seleciona data início e fim apenas uma vez
+Sistema mantém as datas durante a sessão
+Sistema abre automaticamente o link do anúncio
+Copia automaticamente o desconto
+ENTER avança para o próximo anúncio expirado
+
+Objetivo:
+reativar dezenas de promoções rapidamente sem uso excessivo do mouse.
+
+📦 Anúncios
+
+Controle dos produtos anunciados.
+
+Widgets:
+
+Anúncios ativos
+Anúncios inativos
+Premium
+Clássico
+Preços desatualizados
+
+Tabela principal:
+
+Status
+Código do produto
+SKU
+Nome
+Tipo de anúncio
+Preço anunciado
+Líquido a receber
+Estoque
+Quantidade vendida
+
+Detalhes do anúncio (painel lateral):
+
+Valor total
+Frete
+Custo fixo
+Desconto
+Link do anúncio
+Última atualização de preço
+Automação: Atualizar preços antigos
+
+Sistema identifica anúncios sem atualização há mais de 6 meses.
+
+Fluxo:
+
+Abre fila de anúncios desatualizados
+Abre automaticamente o anúncio
+Usuário atualiza o preço
+ENTER marca como atualizado
+Sistema registra a nova data automaticamente
+🛒 Vendas
+
+Tela inspirada no layout do Mercado Livre.
+
+Widgets:
+
+Faturamento total
+Vendas
+Devoluções
+Reclamações
+
+Visualização:
+
+Cards individuais para cada venda.
+
+Informações exibidas:
+
+Número da venda
+Data
+Cliente
+Status
+Produto
+Valor unitário
+Quantidade
+SKU
+
+Filtros:
+
+Status
+Data
+Cliente
+SKU
+Número da venda
+💰 Simulador de Custos
+
+Ferramenta para cálculo rápido de lucro líquido.
+
+Pesquisa integrada:
+
+Nome
+SKU
+Código do produto
+
+Dados editáveis:
+
+Tipo de anúncio
+Frete
+Valor do item
+Desconto
+
+Resultado:
+
+Preço do produto
+Tarifas Mercado Livre
+Frete
+Custo fixo
+Desconto
+Total a receber
+
+Destaque principal:
+
+TOTAL A RECEBER
+
+Com atualização em tempo real conforme os valores são alterados.

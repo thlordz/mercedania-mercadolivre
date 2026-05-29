@@ -1,0 +1,273 @@
+.vendas-page { max-width: 1440px; }
+.sales-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.sales-kpi-card {
+  min-height: 126px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-soft);
+}
+.sales-kpi-icon {
+  width: 54px;
+  height: 54px;
+  flex: 0 0 54px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+.yellow-icon { background: #fff3b8; color: #c49a00; }
+.red-icon { background: #fee2e2; color: #dc2626; }
+.orange-icon { background: #ffedd5; color: #f97316; }
+.purple-icon { background: #ede9fe; color: #7c3aed; }
+.sales-kpi-card p {
+  margin: 0 0 6px;
+  font-weight: 850;
+  color: #101827;
+}
+.sales-kpi-card h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 900;
+  letter-spacing: -.035em;
+  white-space: nowrap;
+}
+.sales-kpi-card small {
+  color: #334155;
+  font-size: 13px;
+}
+.sales-kpi-card small span {
+  margin-left: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.positive { color: var(--green); background: #dcfce7; }
+.negative { color: var(--red); background: #fee2e2; }
+
+.sales-filter-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) 190px 190px 120px 110px;
+  gap: 12px;
+  box-shadow: var(--shadow-soft);
+}
+.sales-search { height: 46px; }
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.order-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px 12px;
+  box-shadow: var(--shadow-soft);
+}
+.order-topline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.order-meta,
+.order-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.order-meta span,
+.order-meta strong {
+  white-space: nowrap;
+}
+.order-meta strong {
+  font-weight: 750;
+  color: #475569;
+}
+.order-meta span:not(.checkbox-fake):not(.ml-pill) {
+  color: #64748b;
+}
+.checkbox-fake {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 4px;
+  flex: 0 0 16px;
+}
+.ml-pill {
+  height: 20px;
+  min-width: 32px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--yellow);
+  color: #111827;
+  font-size: 11px;
+  font-weight: 900;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.status-pill {
+  min-width: 108px;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-weight: 850;
+  font-size: 13px;
+  white-space: nowrap;
+}
+.status-pill.warning { background: #fff3cd; color: #7a5c00; }
+.status-pill.info { background: #dbeafe; color: #0d6efd; }
+.status-pill.success { background: #dcfce7; color: #16803b; }
+.status-pill.danger { background: #fee2e2; color: #dc2626; }
+.order-actions button {
+  height: 38px;
+  min-width: 150px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #fff;
+  color: #111827;
+  font-weight: 850;
+}
+.order-actions i { color: #475569; }
+.order-product-row {
+  background: #fbfcfe;
+  border: 1px solid #edf2f7;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: grid;
+  grid-template-columns: 54px minmax(280px, 1fr) 150px 140px 140px;
+  align-items: center;
+  gap: 18px;
+}
+.order-product-row img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #f1f5f9;
+}
+.order-product-name {
+  color: #475569;
+  font-size: 14px;
+  line-height: 1.35;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.order-data strong {
+  display: block;
+  color: #172033;
+  font-weight: 850;
+  margin-bottom: 2px;
+}
+.order-data span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+.sales-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 4px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@media (max-width: 1240px) {
+  .sales-kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sales-filter-panel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sales-search { grid-column: 1 / -1; }
+  .order-topline { grid-template-columns: 1fr; }
+  .order-actions { justify-content: flex-end; flex-wrap: wrap; }
+  .order-product-row { grid-template-columns: 54px minmax(220px, 1fr) repeat(3, 110px); }
+}
+
+@media (max-width: 760px) {
+  .sales-kpi-grid, .sales-filter-panel { grid-template-columns: 1fr; }
+  .order-meta { flex-wrap: wrap; }
+  .order-actions { justify-content: flex-start; }
+  .order-product-row { grid-template-columns: 54px 1fr; }
+  .order-data { grid-column: 2; }
+  .sales-footer { flex-direction: column; align-items: flex-start; }
+}
+
+/* Correções de acabamento da página Vendas */
+.vendas-page {
+  width: 100%;
+  max-width: 1440px;
+}
+
+.vendas-header {
+  margin-bottom: 20px;
+}
+
+.sales-filter-panel {
+  display: grid;
+  grid-template-columns: minmax(360px, 1fr) 190px 190px 112px 100px;
+  align-items: center;
+  padding: 14px;
+}
+
+.sales-filter-panel .btn-clear {
+  width: 100%;
+}
+
+.order-card {
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-1px);
+  border-color: #d7e0ea;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, .055);
+}
+
+.order-actions button {
+  transition: background .16s ease, border-color .16s ease;
+}
+
+.order-actions button:hover {
+  background: #f8fafc;
+  border-color: #d7e0ea;
+}
+
+.order-actions > i {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: inline-grid;
+  place-items: center;
+}
+
+.order-actions > i:hover { background: #f1f5f9; }
+
+@media (max-width: 1240px) {
+  .sales-filter-panel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -1,85 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard Mercedania</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <link rel="stylesheet" href="css/base.css" />
-  <link rel="stylesheet" href="css/layout.css" />
-  <link rel="stylesheet" href="css/cards.css" />
-  <link rel="stylesheet" href="css/charts.css" />
-  <link rel="stylesheet" href="css/responsive.css" />
+  <meta charset="UTF-8">
+  <meta http-equiv="refresh" content="0; url=pages/inicio.html">
+  <title>Gestão de Vendas</title>
 </head>
 <body>
-  <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span><span></span></button>
-  <div class="mobile-menu-backdrop" id="mobileMenuBackdrop"></div>
-
-  <div class="app-shell">
-    <aside class="sidebar" id="sidebar">
-      <div class="brand">
-        <div class="brand-icon"><i class="fa-solid fa-diamond"></i></div>
-        <h1>MERCEDANIA</h1>
-        <p>Painel de Controle</p>
-      </div>
-
-      <nav class="menu">
-        <button class="menu-item active"><i class="fa-solid fa-house"></i><span>Dashboard</span></button>
-        <button class="menu-item"><i class="fa-solid fa-rectangle-ad"></i><span>Anúncios</span></button>
-        <button class="menu-item"><i class="fa-solid fa-box-open"></i><span>Produtos</span></button>
-        <button class="menu-item"><i class="fa-solid fa-cart-shopping"></i><span>Vendas</span></button>
-        <button class="menu-item"><i class="fa-solid fa-tags"></i><span>Promoções</span></button>
-        <button class="menu-item"><i class="fa-solid fa-rotate-left"></i><span>Devoluções</span></button>
-        <button class="menu-item"><i class="fa-solid fa-calculator"></i><span>Simulador</span></button>
-        <button class="menu-item"><i class="fa-solid fa-chart-simple"></i><span>Relatórios</span></button>
-        <button class="menu-item"><i class="fa-solid fa-gear"></i><span>Configurações</span></button>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="theme-pill"><span><i class="fa-solid fa-moon"></i> Modo Escuro</span><span class="toggle"></span></div>
-        <div class="sync-time"><p>Última atualização</p><strong>31/05/2024 18:42</strong></div>
-      </div>
-    </aside>
-
-    <main class="content">
-      <header class="topbar reveal-soft">
-        <div class="page-title"><h2>Dashboard</h2><p>Visão geral do seu negócio</p></div>
-        <div class="search"><span><i class="fa-solid fa-magnifying-glass"></i></span><input id="searchInput" type="text" placeholder="Pesquisar produtos, SKUs, anúncios, pedidos..." /><kbd>Ctrl + K</kbd></div>
-        <div class="actions"><button id="syncBtn" class="btn"><i class="fa-solid fa-rotate"></i> Sincronizar dados</button><button class="icon-btn"><i class="fa-solid fa-bell"></i></button></div>
-      </header>
-
-      <section class="hero-cards reveal-soft" id="heroCards"></section>
-
-      <section class="other-panel">
-        <h3>Outros indicadores</h3>
-        <div class="small-cards" id="smallCards"></div>
-      </section>
-
-      <section class="promotions panel reveal-soft">
-        <div class="section-title"><h3>Promoções</h3><button class="ghost-btn">Ver todas promoções ›</button></div>
-        <div class="promo-grid" id="promoGrid"></div>
-      </section>
-
-      <section class="dashboard-grid reveal-soft">
-        <article class="panel chart-card">
-          <div class="section-title"><h3>Receita <span>Últimos 12 meses</span></h3><button class="mini-select">Mensal <i class="fa-solid fa-chevron-down"></i></button></div>
-          <div id="revenueChart" class="line-chart"></div>
-        </article>
-        <article class="panel cities"><h3><i class="fa-solid fa-location-dot"></i> Cidades com mais vendas</h3><div id="citiesList" class="cities-list"></div><button class="wide-btn">Ver todas cidades</button></article>
-        <article class="panel bars"><h3><i class="fa-solid fa-chart-column"></i> Vendas por mês</h3><div id="barChart" class="bar-chart"></div><button class="wide-btn">Ver relatório completo ›</button></article>
-      </section>
-
-      <section class="bottom-grid reveal-soft">
-        <article class="panel latest"><div class="section-title"><h3><i class="fa-solid fa-cart-shopping"></i> Últimas vendas</h3><button class="text-btn">Ver todas</button></div><div id="latestSales" class="sales-list compact-list"></div><button class="wide-btn">Ver todas vendas</button></article>
-        <article class="panel top-products"><div class="section-title"><h3><i class="fa-solid fa-trophy"></i> Produtos mais vendidos</h3><button class="text-btn">Ver todos</button></div><div id="topProducts" class="product-list compact-list"></div><button class="wide-btn">Ver todos produtos</button></article>
-      </section>
-    </main>
-  </div>
-
-  <script src="js/data.js"></script>
-  <script src="js/utils.js"></script>
-  <script src="js/charts.js"></script>
-  <script src="js/ui.js"></script>
-  <script src="js/script.js"></script>
+  <a href="pages/inicio.html">Abrir Gestão de Vendas</a>
 </body>
 </html>

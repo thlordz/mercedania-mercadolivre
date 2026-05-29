@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão de Vendas - Promoções</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css" />
+  <link rel="stylesheet" href="../assets/css/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/promocoes.css" />
+</head>
+<body>
+  <div class="app d-flex">
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Gestão de Vendas</span>
+      </div>
+
+      <nav class="menu">
+        <a class="menu-item" data-page="inicio" href="inicio.html"><i class="fa-solid fa-house"></i> Início</a>
+        <a class="menu-item active" data-page="promocoes" href="promocoes.html"><i class="fa-solid fa-percent"></i> Promoções</a>
+        <a class="menu-item" data-page="anuncios" href="anuncios.html"><i class="fa-solid fa-tag"></i> Anúncios</a>
+        <a class="menu-item" data-page="vendas" href="vendas.html"><i class="fa-solid fa-cart-shopping"></i> Vendas</a>
+        <a class="menu-item" data-page="simulador" href="simulador.html"><i class="fa-solid fa-calculator"></i> Simulador de Custos</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <h1>Promoções</h1>
+          <p>Gerencie e acompanhe as promoções dos seus anúncios.</p>
+        </div>
+
+        <button class="btn-reactivate" data-bs-toggle="modal" data-bs-target="#reactivateModal">
+          <i class="fa-solid fa-bolt"></i>
+          Reativar Expiradas <span>24</span>
+        </button>
+      </div>
+
+      <section class="promo-status-grid">
+        <div class="status-card expired-soft">
+          <div class="status-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <div>
+            <p>Expirado</p>
+            <strong>24</strong>
+            <span>promoções</span>
+          </div>
+        </div>
+
+        <div class="status-card scheduled-soft">
+          <div class="status-icon"><i class="fa-solid fa-calendar-days"></i></div>
+          <div>
+            <p>Programado</p>
+            <strong>0</strong>
+            <span>promoções</span>
+          </div>
+        </div>
+
+        <div class="status-card active-soft">
+          <div class="status-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div>
+            <p>Ativado</p>
+            <strong>63</strong>
+            <span>promoções</span>
+          </div>
+        </div>
+
+        <div class="status-card neutral-soft">
+          <div class="status-icon"><i class="fa-solid fa-circle-minus"></i></div>
+          <div>
+            <p>Sem Promoção</p>
+            <strong>41</strong>
+            <span>promoções</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="filter-panel">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Buscar por código, SKU ou nome do anúncio...">
+        </div>
+
+        <div class="filter-control">
+          <label>Status</label>
+          <select>
+            <option>Todos</option>
+            <option>Expirado</option>
+            <option>Programado</option>
+            <option>Ativado</option>
+            <option>Sem Promoção</option>
+          </select>
+        </div>
+
+        <div class="filter-control">
+          <label>Período</label>
+          <select>
+            <option>Todos</option>
+            <option>Hoje</option>
+            <option>7 dias</option>
+            <option>30 dias</option>
+          </select>
+        </div>
+
+        <div class="date-control">
+          <label>Data início</label>
+          <input type="text" placeholder="dd/mm/aaaa">
+          <i class="fa-regular fa-calendar"></i>
+        </div>
+
+        <div class="date-control">
+          <label>Data fim</label>
+          <input type="text" placeholder="dd/mm/aaaa">
+          <i class="fa-regular fa-calendar"></i>
+        </div>
+
+        <button class="btn-clear"><i class="fa-solid fa-filter-circle-xmark"></i> Limpar</button>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="table-responsive">
+          <table class="table align-middle promo-table">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Código</th>
+                <th>SKU</th>
+                <th>Nome do anúncio</th>
+                <th>Data início</th>
+                <th>Data fim</th>
+                <th>Preço</th>
+                <th>Desconto</th>
+                <th>Preço final</th>
+                <th class="text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge text-bg-success-light">Ativado</span></td>
+                <td>1001</td>
+                <td>M007716</td>
+                <td class="product-name">Radiador Óleo Sprinter 310/312 MWM 2.5 1997 até 2012</td>
+                <td>10/05/2025</td>
+                <td>20/05/2025</td>
+                <td>R$ 199,90</td>
+                <td>10%</td>
+                <td class="green fw-bold">R$ 179,91</td>
+                <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+              </tr>
+              <tr>
+                <td><span class="badge text-bg-primary-light">Programado</span></td>
+                <td>1002</td>
+                <td>M007717</td>
+                <td class="product-name">Kit Embreagem Sprinter 310/312 MWM 2.5 1997 até 2012</td>
+                <td>15/05/2025</td>
+                <td>25/05/2025</td>
+                <td>R$ 89,90</td>
+                <td>15%</td>
+                <td class="green fw-bold">R$ 76,42</td>
+                <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+              </tr>
+              <tr>
+                <td><span class="badge text-bg-primary-light">Programado</span></td>
+                <td>1003</td>
+                <td>M007718</td>
+                <td class="product-name">Bomba D’água Sprinter 310/312 MWM 2.5 1997 até 2012</td>
+                <td>01/06/2025</td>
+                <td>10/06/2025</td>
+                <td>R$ 249,90</td>
+                <td>20%</td>
+                <td class="green fw-bold">R$ 199,92</td>
+                <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+              </tr>
+              <tr>
+                <td><span class="badge text-bg-danger-light">Expirado</span></td>
+                <td>1004</td>
+                <td>M007719</td>
+                <td class="product-name">Correia Dentada Sprinter 310/312 MWM 2.5 1997 até 2012</td>
+                <td>05/05/2025</td>
+                <td>15/05/2025</td>
+                <td>R$ 129,90</td>
+                <td>5%</td>
+                <td>R$ 123,41</td>
+                <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+              </tr>
+              <tr>
+                <td><span class="badge text-bg-danger-light">Expirado</span></td>
+                <td>1005</td>
+                <td>M007720</td>
+                <td class="product-name">Termostato Sprinter 310/312 MWM 2.5 1997 até 2012</td>
+                <td>12/04/2025</td>
+                <td>22/04/2025</td>
+                <td>R$ 159,90</td>
+                <td>12%</td>
+                <td>R$ 140,71</td>
+                <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+              </tr>
+              <tr>
+                <td><span class="badge text-bg-secondary-light">Sem Promoção</span></td>
+                <td>1006</td>
+                <td>M007721</td>
+                <td class="product-name">Sensor Temperatura Sprinter 310/312 MWM 2.5 1997 até 2012</td>
+                <td>—</td>
+                <td>—</td>
+                <td>R$ 79,90</td>
+                <td>—</td>
+                <td>R$ 79,90</td>
+                <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+              </tr>
+              <tr>
+                <td><span class="badge text-bg-success-light">Ativado</span></td>
+                <td>1007</td>
+                <td>M007722</td>
+                <td class="product-name">Mangueira Intercooler Sprinter 310/312 MWM 2.5 1997 até 2012</td>
+                <td>08/05/2025</td>
+                <td>18/05/2025</td>
+                <td>R$ 99,90</td>
+                <td>8%</td>
+                <td class="green fw-bold">R$ 91,91</td>
+                <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+              </tr>
+              <tr>
+                <td><span class="badge text-bg-primary-light">Programado</span></td>
+                <td>1008</td>
+                <td>M007723</td>
+                <td class="product-name">Válvula Termostática Sprinter 310/312 MWM 2.5 1997 até 2012</td>
+                <td>20/05/2025</td>
+                <td>30/05/2025</td>
+                <td>R$ 119,90</td>
+                <td>10%</td>
+                <td class="green fw-bold">R$ 107,91</td>
+                <td class="text-center"><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer">
+          <span>Mostrando 1 a 8 de 128 promoções</span>
+          <div class="pagination-wrap">
+            <select class="page-size"><option>8 por página</option><option>16 por página</option></select>
+            <button><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="active">1</button>
+            <button>2</button>
+            <button>3</button>
+            <span>...</span>
+            <button>16</button>
+            <button><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal fade" id="reactivateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content reactivation-modal">
+        <div class="modal-header yellow-modal-header">
+          <div class="modal-title-wrap">
+            <div class="modal-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div>
+              <h5 class="modal-title">Reativar promoções expiradas</h5>
+              <p>Sessão ativa até finalizar</p>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="reactivation-progress">
+            <strong>Promoção <span>12</span> de <span>24</span></strong>
+            <div class="progress"><div class="progress-bar"></div></div>
+          </div>
+
+          <div class="reactivation-product">
+            <div class="product-icon"><i class="fa-solid fa-tag"></i></div>
+            <div class="flex-grow-1">
+              <small>Código do produto</small>
+              <strong>1004</strong>
+              <small>Nome do anúncio</small>
+              <h6>Correia Dentada Sprinter 310/312 MWM 2.5 1997 até 2012</h6>
+            </div>
+            <span class="badge text-bg-danger-light">Expirado</span>
+          </div>
+
+          <div class="row g-3 align-items-stretch mt-2">
+            <div class="col-md-6">
+              <div class="discount-box">
+                <small>Desconto da promoção</small>
+                <strong>5%</strong>
+                <span><i class="fa-regular fa-clipboard"></i> Copiado!</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-box">
+                <i class="fa-solid fa-circle-info"></i>
+                O link do anúncio será aberto automaticamente ao avançar.
+              </div>
+            </div>
+          </div>
+
+          <div class="session-dates">
+            <label>Período da promoção <span>(fixo nesta sessão)</span></label>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <input type="text" class="form-control" value="28/05/2025">
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control" value="04/06/2025">
+              </div>
+            </div>
+          </div>
+
+          <div class="shortcut-box">
+            <p><kbd>ENTER</kbd> avança para a próxima promoção, copia o desconto e abre o link.</p>
+            <p><kbd>ESC</kbd> finaliza a sessão.</p>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Finalizar sessão</button>
+          <button type="button" class="btn btn-next"><i class="fa-solid fa-arrow-right"></i> Próxima promoção</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/global.js"></script>
+  <script src="../assets/js/promocoes.js"></script>
+</body>
+</html>

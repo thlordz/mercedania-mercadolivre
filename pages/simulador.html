@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão de Vendas - Simulador</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css" />
+  <link rel="stylesheet" href="../assets/css/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/simulador.css" />
+</head>
+<body>
+  <div class="app d-flex">
+    <aside class="sidebar">
+      <div class="brand"><i class="fa-solid fa-cart-shopping"></i><span>Gestão de Vendas</span></div>
+      <nav class="menu">
+        <a class="menu-item" data-page="inicio" href="inicio.html"><i class="fa-solid fa-house"></i> Início</a>
+        <a class="menu-item" data-page="promocoes" href="promocoes.html"><i class="fa-solid fa-percent"></i> Promoções</a>
+        <a class="menu-item" data-page="anuncios" href="anuncios.html"><i class="fa-solid fa-tag"></i> Anúncios</a>
+        <a class="menu-item" data-page="vendas" href="vendas.html"><i class="fa-solid fa-cart-shopping"></i> Vendas</a>
+        <a class="menu-item active" data-page="simulador" href="simulador.html"><i class="fa-solid fa-calculator"></i> Simulador de Custos</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <div class="page-header">
+        <div>
+          <h1>Simulador de Custos</h1>
+          <p>Simule seus custos e veja o lucro líquido por venda no Mercado Livre.</p>
+        </div>
+        <button class="btn btn-light border fw-bold"><i class="fa-solid fa-rotate-left me-2"></i>Limpar tudo</button>
+      </div>
+
+      <div class="simulator-search search-box w-100">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Pesquisar produto por nome, SKU ou código do anúncio...">
+      </div>
+
+      <section class="simulator-grid">
+        <div class="selected-product">
+          <h5 class="fw-bold mb-4">Produto selecionado</h5>
+          <div class="d-flex gap-3 align-items-center mb-4">
+            <div class="product-media"><i class="fa-solid fa-gear"></i></div>
+            <div>
+              <h6 class="fw-bold mb-2">Reparo Cilindro De Roda Parcial 1.27/32</h6>
+              <p class="text-muted mb-1">Código do anúncio: #44411104817</p>
+              <p class="text-muted mb-0">SKU: M005411</p>
+            </div>
+          </div>
+          <button class="btn btn-light border w-100 fw-bold"><i class="fa-solid fa-arrow-up-right-from-square me-2"></i>Abrir anúncio no Mercado Livre</button>
+        </div>
+
+        <div class="simulator-form">
+          <label class="form-label fw-bold">Tipo de anúncio</label>
+          <select class="form-select mb-3"><option>Premium</option><option>Clássico</option></select>
+          <label class="form-label fw-bold">Valor do item (R$)</label>
+          <input id="valorItem" class="form-control mb-3" value="56,50">
+          <label class="form-label fw-bold">Frete (R$)</label>
+          <input id="frete" class="form-control mb-3" value="0,00">
+          <label class="form-label fw-bold">Desconto aplicado</label>
+          <div class="input-group mb-3"><input id="desconto" class="form-control" value="0"><span class="input-group-text">%</span></div>
+          <div class="discount-shortcuts mb-3">
+            <button>0%</button><button>5%</button><button>10%</button><button>15%</button><button>20%</button>
+          </div>
+          <div class="alert alert-warning mb-0"><i class="fa-regular fa-lightbulb me-2"></i>Altere os valores para simular diferentes cenários.</div>
+        </div>
+
+        <div class="simulation-result">
+          <h5 class="fw-bold mb-3">Resultado da Simulação</h5>
+          <div class="result-line"><span>Preço do produto</span><strong>R$ 56,50</strong></div>
+          <div class="result-line"><span>Tarifas Mercado Livre</span><strong>R$ 9,61</strong></div>
+          <div class="result-line"><span>Frete</span><strong>R$ 0,00</strong></div>
+          <div class="result-line"><span>Custo fixo</span><strong>R$ 6,75</strong></div>
+          <div class="result-line"><span>Desconto aplicado</span><strong>0%</strong></div>
+          <div class="total-box mt-4 d-flex align-items-center justify-content-between">
+            <div><h6 class="fw-bold mb-1">TOTAL A RECEBER</h6><small class="text-muted">Valor líquido por venda</small></div>
+            <strong id="totalReceber">R$ 40,15</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="../assets/js/global.js"></script>
+  <script src="../assets/js/simulador.js"></script>
+</body>
+</html>

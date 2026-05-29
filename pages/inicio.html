@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestão de Vendas - Início</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/global.css" />
+  <link rel="stylesheet" href="../assets/css/sidebar.css" />
+  <link rel="stylesheet" href="../assets/css/inicio.css" />
+</head>
+<body>
+  <div class="app d-flex">
+    <aside class="sidebar">
+      <div class="brand">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>Gestão de Vendas</span>
+      </div>
+
+      <nav class="menu">
+        <a class="menu-item active" data-page="inicio" href="inicio.html"><i class="fa-solid fa-house"></i> Início</a>
+        <a class="menu-item" data-page="promocoes" href="promocoes.html"><i class="fa-solid fa-percent"></i> Promoções</a>
+        <a class="menu-item" data-page="anuncios" href="anuncios.html"><i class="fa-solid fa-tag"></i> Anúncios</a>
+        <a class="menu-item" data-page="vendas" href="vendas.html"><i class="fa-solid fa-cart-shopping"></i> Vendas</a>
+        <a class="menu-item" data-page="simulador" href="simulador.html"><i class="fa-solid fa-calculator"></i> Simulador de Custos</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div>
+            <p>Receita Líquida</p>
+            <h2 class="green">R$ 24.532,80</h2>
+            <small class="green"><i class="fa-solid fa-arrow-up"></i> 12.5% <span>vs mês anterior</span></small>
+          </div>
+          <div class="icon green-bg"><i class="fa-solid fa-dollar-sign"></i></div>
+        </div>
+
+        <div class="kpi-card">
+          <div>
+            <p>Vendas</p>
+            <h2 class="blue">128</h2>
+            <small class="green"><i class="fa-solid fa-arrow-up"></i> 8.7% <span>vs mês anterior</span></small>
+          </div>
+          <div class="icon blue-bg"><i class="fa-solid fa-cart-shopping"></i></div>
+        </div>
+
+        <div class="kpi-card">
+          <div>
+            <p>Anúncios Ativos</p>
+            <h2 class="green">87</h2>
+            <small class="muted"><i class="fa-solid fa-minus"></i> 0% <span>vs mês anterior</span></small>
+          </div>
+          <div class="icon green-bg"><i class="fa-solid fa-tag"></i></div>
+        </div>
+
+        <div class="kpi-card">
+          <div>
+            <p>Anúncios Pausados</p>
+            <h2 class="orange">12</h2>
+            <small class="green"><i class="fa-solid fa-arrow-up"></i> 2.3% <span>vs mês anterior</span></small>
+          </div>
+          <div class="icon orange-bg"><i class="fa-solid fa-pause"></i></div>
+        </div>
+
+        <div class="kpi-card small-card">
+          <div>
+            <p>Devoluções</p>
+            <h2 class="red">5</h2>
+            <small class="red"><i class="fa-solid fa-arrow-up"></i> 25% <span>vs mês anterior</span></small>
+          </div>
+          <div class="icon red-bg"><i class="fa-solid fa-rotate-left"></i></div>
+        </div>
+
+        <div class="kpi-card small-card">
+          <div>
+            <p>Reclamações</p>
+            <h2 class="purple">3</h2>
+            <small class="purple"><i class="fa-solid fa-arrow-down"></i> 25% <span>vs mês anterior</span></small>
+          </div>
+          <div class="icon purple-bg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h4>Promoções (status)</h4>
+        <div class="promo-grid">
+          <div class="promo-card expired">
+            <span>Expirado</span>
+            <strong>24</strong>
+          </div>
+          <div class="promo-card scheduled">
+            <span>Programado</span>
+            <strong>0</strong>
+          </div>
+          <div class="promo-card active-promo">
+            <span>Ativado</span>
+            <strong>63</strong>
+          </div>
+          <div class="promo-card no-promo">
+            <span>Sem Promoção</span>
+            <strong>41</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h4>Vendas recentes</h4>
+        <div class="table-responsive">
+          <table class="table align-middle sales-table">
+            <thead>
+              <tr>
+                <th># Venda</th>
+                <th>Data</th>
+                <th>Status</th>
+                <th>Produto</th>
+                <th>Preço</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#6818088748</td>
+                <td>18/05/2025</td>
+                <td><span class="badge text-bg-success-light">Entregue</span></td>
+                <td class="product-name">Produto A com nome grande que será limitado na exibição...</td>
+                <td>R$ 199,90</td>
+              </tr>
+              <tr>
+                <td>#6818088747</td>
+                <td>17/05/2025</td>
+                <td><span class="badge text-bg-primary-light">Enviado</span></td>
+                <td class="product-name">Produto B com nome grande que será limitado na exibição...</td>
+                <td>R$ 89,90</td>
+              </tr>
+              <tr>
+                <td>#6818088746</td>
+                <td>17/05/2025</td>
+                <td><span class="badge text-bg-primary-light">Pagamento aprovado</span></td>
+                <td class="product-name">Produto C com nome grande que será limitado na exibição...</td>
+                <td>R$ 249,90</td>
+              </tr>
+              <tr>
+                <td>#6818088745</td>
+                <td>16/05/2025</td>
+                <td><span class="badge text-bg-danger-light">Cancelado</span></td>
+                <td class="product-name">Produto D com nome grande que será limitado na exibição...</td>
+                <td>R$ 129,90</td>
+              </tr>
+              <tr>
+                <td>#6818088744</td>
+                <td>16/05/2025</td>
+                <td><span class="badge text-bg-success-light">Entregue</span></td>
+                <td class="product-name">Produto E com nome grande que será limitado na exibição...</td>
+                <td>R$ 159,90</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <a href="#" class="see-all">Ver todas as vendas</a>
+      </section>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/global.js"></script>
+  <script src="../assets/js/inicio.js"></script>
+</body>
+</html>
