@@ -531,6 +531,14 @@
   font-weight: 850;
 }
 
+.sale-product-option.active,
+.sale-product-option:focus {
+  border-color: #111;
+  background: #fff9bf;
+  box-shadow: 0 0 0 2px var(--yellow);
+  outline: none;
+}
+
 .sale-item-row {
   grid-template-columns: 46px minmax(0, 1fr) 74px 100px 34px;
 }

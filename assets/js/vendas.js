@@ -6,6 +6,8 @@ let anunciosBase = [];
 let saleItems = [];
 let state = { page: 1, pageSize: 10 };
 let step = 1;
+let productResults = [];
+let activeProductResult = -1;
 
 const query = getQuery();
 const searchInput = document.querySelector('.sales-filter-panel .search-box input');
@@ -96,7 +98,7 @@ function injectNewSaleModal() {
                   <label>Observação</label>
                   <textarea class="form-control" name="observacao" rows="4"></textarea>
                 </div>
-                <aside class="step-help"><strong>Valores</strong><p>O valor total é sugerido pelos produtos, mas você pode ajustar o líquido recebido.</p><h4 id="saleTotalPreview">R$ 0,00</h4></aside>
+                <aside class="step-help"><strong>Valores</strong><p>Digite a tarifa total para liberar a próxima etapa. Use Enter para avançar e Esc para voltar.</p></aside>
               </div>
             </section>
             <section class="sale-step-panel d-none" data-step="4">
@@ -164,15 +166,16 @@ function injectNewSaleModal() {
     document.querySelector('[name="numero_venda"]').value = '#';
     renderSaleItems();
     renderSaleStep();
-    bootstrap.Modal.getOrCreateInstance(document.querySelector('#newSaleModal')).show();
+    bootstrap.Modal.getOrCreateInstance(document.querySelector('#newSaleModal'), { keyboard: false }).show();
     setTimeout(() => document.querySelector('[name="numero_venda"]').focus(), 150);
   });
 
   document.querySelector('#saleProductSearch').addEventListener('input', debounce(renderProductResults));
+  document.querySelector('#saleProductSearch').addEventListener('keydown', handleProductSearchKeyboard);
   document.querySelector('#saleNumber').addEventListener('input', handleSaleNumberInput);
   document.querySelector('#saleDocument').addEventListener('input', handleDocumentInput);
   document.querySelectorAll('.money-input').forEach(input => input.addEventListener('input', handleMoneyInput));
-  document.querySelector('#newSaleForm').addEventListener('keydown', handleSaleKeyboard);
+  document.querySelector('#newSaleModal').addEventListener('keydown', handleSaleKeyboard);
   document.querySelector('#lookupCepButton').addEventListener('click', lookupCep);
   document.querySelector('#saleCep').addEventListener('input', handleCepInput);
   document.querySelector('#saleCep').addEventListener('blur', lookupCep);
@@ -222,8 +225,21 @@ function handleMoneyInput(event) {
 }
 
 function handleSaleKeyboard(event) {
+  if (event.target.id === 'saleProductSearch' && ['ArrowDown', 'ArrowUp', 'Enter'].includes(event.key)) return;
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    event.stopPropagation();
+    if (step > 1) {
+      step -= 1;
+      renderSaleStep();
+    } else {
+      bootstrap.Modal.getInstance(document.querySelector('#newSaleModal'))?.hide();
+    }
+    return;
+  }
   if (event.key !== 'Enter' || event.target.tagName === 'TEXTAREA') return;
   event.preventDefault();
+  event.stopPropagation();
   if (event.shiftKey && step > 1) {
     step -= 1;
     renderSaleStep();
@@ -287,11 +303,18 @@ async function lookupCep() {
 
 function renderProductResults() {
   const term = document.querySelector('#saleProductSearch').value.trim().toLowerCase();
-  const results = anunciosBase
+  if (!term) {
+    productResults = [];
+    activeProductResult = -1;
+    document.querySelector('.sale-product-results').innerHTML = '';
+    return;
+  }
+  productResults = anunciosBase
     .filter(item => !term || `${item.nome} ${item.sku} ${item.codigo_produto}`.toLowerCase().includes(term))
     .slice(0, 6);
-  document.querySelector('.sale-product-results').innerHTML = results.map(item => `
-    <button type="button" class="sale-product-option" data-id="${item.id}">
+  activeProductResult = productResults.length ? 0 : -1;
+  document.querySelector('.sale-product-results').innerHTML = productResults.map((item, index) => `
+    <button type="button" class="sale-product-option ${index === activeProductResult ? 'active' : ''}" data-id="${item.id}" data-index="${index}">
       <img src="${productImage(item.foto_url, item.nome || 'ML')}" alt="Produto">
       <span><strong>${item.nome}</strong><small>${cleanCode(item.codigo_produto)} · ${truncateText(item.sku, 18)}</small></span>
       <em>${formatCurrency(item.preco_anunciado)}</em>
@@ -299,19 +322,64 @@ function renderProductResults() {
   `).join('');
   document.querySelectorAll('.sale-product-option').forEach(button => {
     button.addEventListener('click', () => {
-      const ad = anunciosBase.find(item => item.id === Number(button.dataset.id));
-      saleItems.push({
-        anuncio_id: ad.id,
-        codigo_produto: ad.codigo_produto,
-        sku: ad.sku,
-        produto_nome: ad.nome,
-        quantidade: 1,
-        valor_unitario: ad.preco_anunciado || ad.valor_total || 0,
-        foto_url: ad.foto_url || '',
-      });
-      renderSaleItems();
+      addSaleProduct(anunciosBase.find(item => item.id === Number(button.dataset.id)));
     });
   });
+}
+
+function refreshProductActiveResult() {
+  document.querySelectorAll('.sale-product-option').forEach((button, index) => {
+    button.classList.toggle('active', index === activeProductResult);
+    if (index === activeProductResult) button.scrollIntoView({ block: 'nearest' });
+  });
+}
+
+function handleProductSearchKeyboard(event) {
+  if (!['ArrowDown', 'ArrowUp', 'Enter', 'Escape'].includes(event.key)) return;
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    document.querySelector('#saleProductSearch').value = '';
+    document.querySelector('.sale-product-results').innerHTML = '';
+    productResults = [];
+    activeProductResult = -1;
+    return;
+  }
+  if (event.key === 'ArrowDown') {
+    event.preventDefault();
+    if (productResults.length) activeProductResult = Math.min(productResults.length - 1, activeProductResult + 1);
+    refreshProductActiveResult();
+    return;
+  }
+  if (event.key === 'ArrowUp') {
+    event.preventDefault();
+    if (productResults.length) activeProductResult = Math.max(0, activeProductResult - 1);
+    refreshProductActiveResult();
+    return;
+  }
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    if (productResults[activeProductResult]) addSaleProduct(productResults[activeProductResult]);
+    else handleNextStep();
+  }
+}
+
+function addSaleProduct(ad) {
+  if (!ad) return;
+  saleItems.push({
+    anuncio_id: ad.id,
+    codigo_produto: ad.codigo_produto,
+    sku: ad.sku,
+    produto_nome: ad.nome,
+    quantidade: 1,
+    valor_unitario: ad.preco_anunciado || ad.valor_total || 0,
+    foto_url: ad.foto_url || '',
+  });
+  document.querySelector('#saleProductSearch').value = '';
+  document.querySelector('.sale-product-results').innerHTML = '';
+  productResults = [];
+  activeProductResult = -1;
+  renderSaleItems();
+  document.querySelector('#saleProductSearch').focus();
 }
 
 function renderSaleItems() {
@@ -372,7 +440,8 @@ function renderSaleStep() {
   if (step === 5) renderReview();
   setTimeout(() => {
     const current = document.querySelector(`.sale-step-panel[data-step="${step}"]`);
-    current?.querySelector('input, select, textarea, button')?.focus();
+    const target = current?.querySelector('input, select, textarea, button') || document.querySelector('#nextSaleStep');
+    target?.focus();
   }, 40);
 }
 
@@ -403,6 +472,10 @@ async function handleNextStep() {
     }
   }
   if (step === 2 && !saleItems.length) return;
+  if (step === 3 && numberFromInput(document.querySelector('[name="tarifa_venda_total"]').value) <= 0) {
+    document.querySelector('[name="tarifa_venda_total"]').focus();
+    return;
+  }
   if (step < 5) {
     step += 1;
     renderSaleStep();
