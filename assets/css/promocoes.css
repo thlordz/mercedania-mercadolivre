@@ -201,10 +201,15 @@
 }
 
 .promo-table .product-name {
-  max-width: 330px;
-  min-width: 260px;
-  white-space: normal;
+  max-width: 390px;
+  min-width: 300px;
+  white-space: normal !important;
   line-height: 1.35;
+}
+
+.promo-table .product-title {
+  max-height: 38px;
+  overflow: hidden;
 }
 
 .text-bg-secondary-light { background: #f1f5f9; color: #475569; }

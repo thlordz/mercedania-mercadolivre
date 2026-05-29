@@ -1,0 +1,16 @@
+{
+  "name": "mercedania-mercadolivre",
+  "version": "0.1.0",
+  "description": "Sistema desktop Electron para gestão de anúncios, promoções e vendas do Mercado Livre.",
+  "main": "src/main/main.js",
+  "scripts": {
+    "start": "electron .",
+    "import:planilha": "node scripts/import-planilha.js",
+    "check:db": "node scripts/check-db.js"
+  },
+  "dependencies": {
+    "electron": "^35.0.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {}
+}

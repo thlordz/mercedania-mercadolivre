@@ -2,11 +2,15 @@
 .sidebar {
   width: var(--sidebar-width);
   min-height: 100vh;
-  background: var(--card);
-  border-right: 1px solid var(--border);
+  background: #080808;
+  border-right: 1px solid #171717;
   padding: 22px 12px;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 30;
+  overflow-y: auto;
 }
 
 .brand {
@@ -18,9 +22,16 @@
   margin-bottom: 30px;
   padding: 0 10px;
   white-space: nowrap;
+  color: #fff;
 }
 
-.brand i { color: var(--blue); font-size: 22px; }
+.brand img {
+  width: 58px;
+  height: auto;
+  flex: 0 0 auto;
+}
+
+.brand i { color: var(--yellow); font-size: 22px; }
 
 .menu { display: flex; flex-direction: column; gap: 8px; }
 
@@ -30,7 +41,7 @@
   gap: 12px;
   padding: 13px 16px;
   border-radius: var(--radius-sm);
-  color: #172033;
+  color: #d7dbe2;
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
@@ -38,7 +49,37 @@
   white-space: nowrap;
 }
 
-.menu-item i { width: 20px; color: #475569; font-size: 17px; text-align: center; }
-.menu-item:hover, .menu-item.active { background: #eef5ff; color: var(--blue); }
-.menu-item.active i { color: var(--blue); }
+.menu-item i { width: 20px; color: #8f96a3; font-size: 17px; text-align: center; }
+.menu-item:hover, .menu-item.active { background: #1d1d1d; color: var(--yellow); }
+.menu-item.active i { color: var(--yellow); }
 
+@media (max-width: 760px) {
+  .sidebar {
+    width: 100%;
+    min-height: 64px;
+    height: auto;
+    right: 0;
+    bottom: auto;
+    padding: 10px 10px 8px;
+  }
+
+  .brand {
+    margin: 0 0 8px;
+    padding: 0 4px;
+  }
+
+  .brand img { width: 48px; }
+  .brand span { font-size: 14px; }
+  .menu {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 6px;
+    padding-bottom: 3px;
+  }
+
+  .menu-item {
+    min-width: max-content;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}

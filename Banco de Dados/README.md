@@ -1,21 +1,24 @@
-# Banco de dados - Gestão de Vendas
+# Banco de Dados - Gestão de Vendas
 
-Este pacote cria um banco SQLite inicial usando a planilha atual.
+Esta pasta concentra a planilha original, o schema e o SQLite usado pelo aplicativo Electron.
 
 ## Arquivos
 
-- `gestao_vendas.sqlite`: banco já criado e importado.
+- `Gestão de Anúncio - Mercado Livre(2).xlsm`: planilha fonte.
+- `gestao_vendas.sqlite`: banco SQLite usado pelo app.
 - `schema.sql`: estrutura das tabelas.
-- `import_planilha.py`: importador da planilha `.xlsm` para SQLite.
-- `consultas_exemplo.sql`: consultas úteis para as telas.
+- `import_planilha.py`: importador legado em Python.
+- `consultas_exemplo.sql`: consultas úteis para análise.
 
-## Como usar
+## Importação recomendada
 
-Coloque a planilha na mesma pasta e rode:
+Na raiz do projeto, rode:
 
 ```bash
-python import_planilha.py --planilha "Gestão de Anúncio - Mercado Livre(2).xlsm" --db gestao_vendas.sqlite
+npm run import:planilha
 ```
+
+Esse comando usa `scripts/import-planilha.js` e não depende de Python instalado.
 
 ## Tabelas principais
 
@@ -27,4 +30,4 @@ python import_planilha.py --planilha "Gestão de Anúncio - Mercado Livre(2).xls
 
 ## Observação
 
-Para o MVP, campos sensíveis da aba Vendas, como CPF/CNPJ e endereço completo, não foram importados. O sistema só trouxe o necessário para a tela de vendas: venda, cliente, status, produto, SKU, quantidade e valores.
+Campos sensíveis da aba Vendas, como CPF/CNPJ e endereço completo, não são importados. O banco mantém apenas o necessário para as telas: venda, cliente, status, produto, SKU, quantidade e valores.
