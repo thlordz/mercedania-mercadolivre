@@ -44,3 +44,4 @@ ipcMain.handle('vendas:list', (_event, filters) => database.vendasList(filters))
 ipcMain.handle('anuncios:update', (_event, payload) => database.updateAnuncio(payload));
 ipcMain.handle('promocoes:update', (_event, payload) => database.updatePromocao(payload));
 ipcMain.handle('vendas:create', (_event, payload) => database.createVenda(payload));
+ipcMain.handle('vendas:delete', (_event, id) => database.deleteVenda(id));
