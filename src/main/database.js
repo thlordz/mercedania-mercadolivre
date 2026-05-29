@@ -314,6 +314,20 @@ function createVenda(payload) {
   }
 }
 
+function deleteVenda(id) {
+  const vendaId = Number(id);
+  if (!Number.isInteger(vendaId) || vendaId <= 0) {
+    throw new Error('Venda inválida.');
+  }
+
+  const database = getDb();
+  const venda = get('SELECT * FROM vendas WHERE id = ?', [vendaId]);
+  if (!venda) throw new Error('Venda não encontrada.');
+
+  database.prepare('DELETE FROM vendas WHERE id = ?').run(vendaId);
+  return { success: true, id: vendaId, numero_venda: venda.numero_venda };
+}
+
 function stats() {
   return {
     dashboard: dashboard(),
@@ -348,5 +362,6 @@ module.exports = {
   updateAnuncio,
   updatePromocao,
   createVenda,
+  deleteVenda,
   stats,
 };
