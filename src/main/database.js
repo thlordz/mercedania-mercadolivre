@@ -28,6 +28,9 @@ function ensureColumn(database, table, name, definition) {
 function migrate(database) {
   ensureColumn(database, 'anuncios', 'foto_url', 'TEXT');
   ensureColumn(database, 'vendas', 'foto_url', 'TEXT');
+  ensureColumn(database, 'vendas', 'cliente_documento', 'TEXT');
+  ensureColumn(database, 'vendas', 'tarifa_venda_total', 'REAL DEFAULT 0');
+  ensureColumn(database, 'vendas', 'envios_total', 'REAL DEFAULT 0');
   ensureColumn(database, 'vendas', 'cep', 'TEXT');
   ensureColumn(database, 'vendas', 'logradouro', 'TEXT');
   ensureColumn(database, 'vendas', 'numero_endereco', 'TEXT');
@@ -255,8 +258,9 @@ function createVenda(payload) {
       INSERT INTO vendas
       (numero_venda, anuncio_id, codigo_produto, sku, produto_nome, cliente_nome,
        status, data_venda, quantidade, valor_unitario, valor_receber, observacao, link_venda, foto_url,
+       cliente_documento, tarifa_venda_total, envios_total,
        cep, logradouro, numero_endereco, complemento_endereco, bairro, cidade, uf)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       payload.numero_venda,
       first.anuncio_id || null,
@@ -272,6 +276,9 @@ function createVenda(payload) {
       payload.observacao || '',
       payload.link_venda || '',
       first.foto_url || '',
+      payload.cliente_documento || '',
+      Number(payload.tarifa_venda_total || 0),
+      Number(payload.envios_total || 0),
       payload.cep || '',
       payload.logradouro || '',
       payload.numero_endereco || '',

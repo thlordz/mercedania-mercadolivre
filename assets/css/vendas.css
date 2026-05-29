@@ -283,7 +283,15 @@
   box-shadow: 0 0 0 2px var(--yellow), var(--shadow-soft);
 }
 
-.new-sale-modal { border: 0; }
+.new-sale-dialog {
+  max-width: 980px;
+}
+
+.new-sale-modal {
+  border: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
 
 .new-sale-modal .modal-header {
   min-height: 78px;
@@ -296,8 +304,8 @@
 .sale-steps {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
-  padding: 22px 44px 18px;
+  gap: 8px;
+  padding: 16px 28px 14px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -320,8 +328,8 @@
 }
 
 .sale-step strong {
-  width: 34px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
   border: 1px solid #cfd8e3;
   border-radius: 50%;
   background: #fff;
@@ -332,9 +340,9 @@
 }
 
 .sale-step.active strong {
-  background: #1769e8;
-  border-color: #1769e8;
-  color: #fff;
+  background: var(--yellow);
+  border-color: #111;
+  color: #111;
 }
 
 .sale-step.active span {
@@ -343,20 +351,32 @@
 }
 
 .sale-form-grid {
-  min-height: calc(100vh - 250px);
+  min-height: 430px;
+  max-height: 62vh;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 460px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  overflow: auto;
 }
 
 .sale-form-grid > div:first-child {
-  padding: 24px 34px;
+  padding: 20px 26px;
 }
 
 .step-help {
   border-left: 1px solid var(--border);
   background: #fbfcff;
-  padding: 34px 38px;
+  padding: 26px;
   color: #25314f;
+}
+
+.new-sale-modal .modal-footer {
+  border-top: 1px solid var(--border);
+  padding: 14px 18px;
+}
+
+.new-sale-modal .btn-primary {
+  min-width: 136px;
+  font-weight: 850;
 }
 
 .step-help strong {
@@ -400,6 +420,73 @@
 .cep-feedback.success { color: var(--green); }
 .cep-feedback.error { color: var(--red); }
 .cep-feedback.loading { color: #8a6a00; }
+
+.values-summary {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.values-section {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.values-section > div:first-child,
+.values-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.values-section strong,
+.values-total strong {
+  color: #4b5563;
+  font-size: 15px;
+}
+
+.values-section span,
+.values-total span {
+  color: #4b5563;
+  font-weight: 800;
+}
+
+.values-lines {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.values-lines div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  color: #5f6875;
+}
+
+.values-lines span {
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.values-section .money-input {
+  margin-top: 10px;
+  text-align: right;
+  font-weight: 800;
+}
+
+.values-total {
+  padding: 16px;
+  background: #fffdf0;
+}
+
+.values-total strong,
+.values-total span {
+  color: #111;
+  font-size: 17px;
+}
 
 .sale-product-option,
 .sale-item-row {
@@ -506,6 +593,7 @@
 
   .sale-step span { font-size: 12px; }
   .sale-form-grid { grid-template-columns: 1fr; }
+  .sale-form-grid { max-height: 70vh; }
   .step-help { border-left: 0; border-top: 1px solid var(--border); padding: 20px; }
   .sale-form-grid > div:first-child { padding: 20px; }
   .review-grid { grid-template-columns: 1fr; }

@@ -26,7 +26,7 @@ function injectNewSaleModal() {
   `);
   document.body.insertAdjacentHTML('beforeend', `
     <div class="modal fade" id="newSaleModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-fullscreen">
+      <div class="modal-dialog modal-dialog-centered modal-xl new-sale-dialog">
         <form class="modal-content new-sale-modal" id="newSaleForm">
           <div class="modal-header">
             <div class="modal-title-wrap">
@@ -47,13 +47,15 @@ function injectNewSaleModal() {
               <div class="sale-form-grid">
                 <div>
                   <label>Número da venda *</label>
-                  <input class="form-control" name="numero_venda" required placeholder="#2000013215886851">
+                  <input class="form-control" name="numero_venda" id="saleNumber" required maxlength="17" placeholder="#2000013215886851">
                   <label>Data da venda *</label>
                   <input class="form-control" type="date" name="data_venda" required>
                   <label>Status da venda *</label>
                   <select class="form-select" name="status"><option>A caminho</option><option>Em trânsito</option><option>Entregue</option><option>Cancelado</option></select>
                   <label>Cliente *</label>
                   <input class="form-control" name="cliente_nome" required>
+                  <label>CPF/CNPJ</label>
+                  <input class="form-control" name="cliente_documento" id="saleDocument" inputmode="numeric" placeholder="CPF ou CNPJ">
                 </div>
                 <aside class="step-help"><strong>Sobre esta etapa</strong><p>Informe os dados principais da venda para identificação e organização.</p></aside>
               </div>
@@ -73,8 +75,24 @@ function injectNewSaleModal() {
             <section class="sale-step-panel d-none" data-step="3">
               <div class="sale-form-grid">
                 <div>
-                  <label>Valor a receber</label>
-                  <input class="form-control" name="valor_receber">
+                  <div class="values-summary">
+                    <div class="values-section">
+                      <div><strong>Preço do produto</strong><span id="grossProductsTotal">R$ 0,00</span></div>
+                      <div id="valuesProductsList" class="values-lines"></div>
+                    </div>
+                    <div class="values-section">
+                      <div><strong>Tarifa de venda total</strong><span id="feeTotalPreview">-R$ 0,00</span></div>
+                      <label>Tarifa total</label>
+                      <input class="form-control money-input" name="tarifa_venda_total" inputmode="numeric" placeholder="R$ 0,00">
+                    </div>
+                    <div class="values-section">
+                      <div><strong>Envios</strong><span id="shippingTotalPreview">-R$ 0,00</span></div>
+                      <label>Envios</label>
+                      <input class="form-control money-input" name="envios_total" inputmode="numeric" placeholder="R$ 0,00">
+                    </div>
+                    <div class="values-total"><strong>Total</strong><span id="saleTotalPreview">R$ 0,00</span></div>
+                  </div>
+                  <input type="hidden" name="valor_receber">
                   <label>Observação</label>
                   <textarea class="form-control" name="observacao" rows="4"></textarea>
                 </div>
@@ -143,12 +161,18 @@ function injectNewSaleModal() {
     step = 1;
     document.querySelector('#newSaleForm').reset();
     document.querySelector('[name="data_venda"]').value = new Date().toISOString().slice(0, 10);
+    document.querySelector('[name="numero_venda"]').value = '#';
     renderSaleItems();
     renderSaleStep();
     bootstrap.Modal.getOrCreateInstance(document.querySelector('#newSaleModal')).show();
+    setTimeout(() => document.querySelector('[name="numero_venda"]').focus(), 150);
   });
 
   document.querySelector('#saleProductSearch').addEventListener('input', debounce(renderProductResults));
+  document.querySelector('#saleNumber').addEventListener('input', handleSaleNumberInput);
+  document.querySelector('#saleDocument').addEventListener('input', handleDocumentInput);
+  document.querySelectorAll('.money-input').forEach(input => input.addEventListener('input', handleMoneyInput));
+  document.querySelector('#newSaleForm').addEventListener('keydown', handleSaleKeyboard);
   document.querySelector('#lookupCepButton').addEventListener('click', lookupCep);
   document.querySelector('#saleCep').addEventListener('input', handleCepInput);
   document.querySelector('#saleCep').addEventListener('blur', lookupCep);
@@ -158,6 +182,54 @@ function injectNewSaleModal() {
 
 function onlyCepDigits(value) {
   return String(value || '').replace(/\D/g, '').slice(0, 8);
+}
+
+function handleSaleNumberInput(event) {
+  const digits = String(event.target.value || '').replace(/\D/g, '').slice(0, 16);
+  event.target.value = `#${digits}`;
+}
+
+function formatDocument(value) {
+  const digits = String(value || '').replace(/\D/g, '').slice(0, 14);
+  if (digits.length <= 11) {
+    return digits
+      .replace(/^(\d{3})(\d)/, '$1.$2')
+      .replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')
+      .replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
+  }
+  return digits
+    .replace(/^(\d{2})(\d)/, '$1.$2')
+    .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+    .replace(/^(\d{2})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3/$4')
+    .replace(/^(\d{2})\.(\d{3})\.(\d{3})\/(\d{4})(\d)/, '$1.$2.$3/$4-$5');
+}
+
+function handleDocumentInput(event) {
+  event.target.value = formatDocument(event.target.value);
+}
+
+function moneyFromDigits(value) {
+  return Number(String(value || '').replace(/\D/g, '') || 0) / 100;
+}
+
+function formatMoneyInputValue(value) {
+  return moneyFromDigits(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function handleMoneyInput(event) {
+  event.target.value = formatMoneyInputValue(event.target.value);
+  renderValuesSummary();
+}
+
+function handleSaleKeyboard(event) {
+  if (event.key !== 'Enter' || event.target.tagName === 'TEXTAREA') return;
+  event.preventDefault();
+  if (event.shiftKey && step > 1) {
+    step -= 1;
+    renderSaleStep();
+    return;
+  }
+  handleNextStep();
 }
 
 function formatCep(value) {
@@ -245,9 +317,8 @@ function renderProductResults() {
 function renderSaleItems() {
   const total = saleItems.reduce((sum, item) => sum + item.quantidade * item.valor_unitario, 0);
   const totalInput = document.querySelector('[name="valor_receber"]');
-  if (totalInput && !totalInput.value) totalInput.value = total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-  const totalPreview = document.querySelector('#saleTotalPreview');
-  if (totalPreview) totalPreview.textContent = formatCurrency(total);
+  if (totalInput && !totalInput.value) totalInput.value = String(total);
+  renderValuesSummary();
   const list = document.querySelector('.sale-items-list');
   if (!list) return;
   list.innerHTML = saleItems.length ? saleItems.map((item, index) => `
@@ -265,6 +336,7 @@ function renderSaleItems() {
   }));
   list.querySelectorAll('[data-item-value]').forEach(input => input.addEventListener('input', () => {
     saleItems[Number(input.dataset.itemValue)].valor_unitario = numberFromInput(input.value);
+    renderValuesSummary();
   }));
   list.querySelectorAll('[data-remove-item]').forEach(button => button.addEventListener('click', () => {
     saleItems.splice(Number(button.dataset.removeItem), 1);
@@ -272,12 +344,36 @@ function renderSaleItems() {
   }));
 }
 
+function renderValuesSummary() {
+  const gross = saleItems.reduce((sum, item) => sum + item.quantidade * item.valor_unitario, 0);
+  const fee = numberFromInput(document.querySelector('[name="tarifa_venda_total"]')?.value || 0);
+  const shipping = numberFromInput(document.querySelector('[name="envios_total"]')?.value || 0);
+  const total = gross - fee - shipping;
+  const totalInput = document.querySelector('[name="valor_receber"]');
+  if (totalInput) totalInput.value = String(total);
+  setText('#grossProductsTotal', formatCurrency(gross));
+  setText('#feeTotalPreview', `-${formatCurrency(fee)}`);
+  setText('#shippingTotalPreview', `-${formatCurrency(shipping)}`);
+  setText('#saleTotalPreview', formatCurrency(total));
+  const list = document.querySelector('#valuesProductsList');
+  if (list) {
+    list.innerHTML = saleItems.map(item => `
+      <div><span>${item.produto_nome}</span><strong>${formatCurrency(item.valor_unitario * item.quantidade)}</strong></div>
+    `).join('');
+  }
+}
+
 function renderSaleStep() {
   document.querySelectorAll('.sale-step-panel').forEach(panel => panel.classList.toggle('d-none', Number(panel.dataset.step) !== step));
   document.querySelectorAll('.sale-step').forEach(dot => dot.classList.toggle('active', Number(dot.dataset.stepDot) <= step));
   document.querySelector('#prevSaleStep').disabled = step === 1;
+  renderValuesSummary();
   document.querySelector('#nextSaleStep').innerHTML = step === 5 ? 'Salvar venda' : 'Próximo <i class="fa-solid fa-arrow-right"></i>';
   if (step === 5) renderReview();
+  setTimeout(() => {
+    const current = document.querySelector(`.sale-step-panel[data-step="${step}"]`);
+    current?.querySelector('input, select, textarea, button')?.focus();
+  }, 40);
 }
 
 function renderReview() {
@@ -288,8 +384,10 @@ function renderReview() {
     <div class="review-grid">
       <div><span>Venda</span><strong>${cleanCode(data.numero_venda)}</strong></div>
       <div><span>Cliente</span><strong>${data.cliente_nome || '-'}</strong></div>
+      <div><span>CPF/CNPJ</span><strong>${data.cliente_documento || '-'}</strong></div>
       <div><span>Status</span><strong>${data.status || '-'}</strong></div>
       <div><span>Produtos</span><strong>${saleItems.length}</strong></div>
+      <div><span>Total</span><strong>${formatCurrency(numberFromInput(data.valor_receber))}</strong></div>
       <div><span>Entrega</span><strong>${data.logradouro ? `${data.logradouro}, ${data.numero_endereco || 's/n'}` : 'Não informada'}</strong></div>
     </div>
     <div class="sale-items-list static">${saleItems.map(item => `<div class="sale-item-row"><img src="${productImage(item.foto_url, item.produto_nome)}" alt=""><div><strong>${item.produto_nome}</strong><small>${item.quantidade} unid. · ${formatCurrency(item.valor_unitario)}</small></div></div>`).join('')}</div>
@@ -297,6 +395,13 @@ function renderReview() {
 }
 
 async function handleNextStep() {
+  if (step === 1) {
+    const saleNumber = document.querySelector('[name="numero_venda"]').value;
+    if (!/^#\d{16}$/.test(saleNumber)) {
+      document.querySelector('[name="numero_venda"]').focus();
+      return;
+    }
+  }
   if (step === 2 && !saleItems.length) return;
   if (step < 5) {
     step += 1;
@@ -310,7 +415,10 @@ async function handleNextStep() {
     data_venda: data.data_venda,
     status: data.status,
     cliente_nome: data.cliente_nome,
+    cliente_documento: data.cliente_documento,
     valor_receber: numberFromInput(data.valor_receber),
+    tarifa_venda_total: numberFromInput(data.tarifa_venda_total),
+    envios_total: numberFromInput(data.envios_total),
     observacao: data.observacao,
     link_venda: data.link_venda,
     cep: onlyCepDigits(data.cep),
