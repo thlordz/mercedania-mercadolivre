@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="../assets/css/global.css" />
   <link rel="stylesheet" href="../assets/css/sidebar.css" />
   <link rel="stylesheet" href="../assets/css/vendas.css" />
+  <link rel="stylesheet" href="../assets/css/vendas-acoes.css" />
 </head>
 <body>
   <div class="app d-flex">
@@ -18,7 +19,6 @@
         <i class="fa-solid fa-cart-shopping"></i>
         <span>Gestão de Vendas</span>
       </div>
-
       <nav class="menu">
         <a class="menu-item" data-page="inicio" href="inicio.html"><i class="fa-solid fa-house"></i> Início</a>
         <a class="menu-item" data-page="promocoes" href="promocoes.html"><i class="fa-solid fa-percent"></i> Promoções</a>
@@ -27,203 +27,11 @@
         <a class="menu-item" data-page="simulador" href="simulador.html"><i class="fa-solid fa-calculator"></i> Simulador de Custos</a>
       </nav>
     </aside>
-
-    <main class="content vendas-page">
-      <div class="page-header vendas-header">
-        <div>
-          <h1>Vendas</h1>
-          <p>Acompanhe todas as suas vendas realizadas no Mercado Livre.</p>
-        </div>
-      </div>
-
-      <section class="sales-kpi-grid">
-        <div class="sales-kpi-card">
-          <div class="sales-kpi-icon yellow-icon"><i class="fa-solid fa-sack-dollar"></i></div>
-          <div>
-            <p>Total faturado</p>
-            <h2>R$ 28.543,60</h2>
-            <small>125 vendas <span class="positive"><i class="fa-solid fa-arrow-up"></i> 12,5%</span></small>
-          </div>
-        </div>
-
-        <div class="sales-kpi-card">
-          <div class="sales-kpi-icon red-icon"><i class="fa-solid fa-rotate-left"></i></div>
-          <div>
-            <p>Devoluções</p>
-            <h2>R$ 1.487,90</h2>
-            <small>8 vendas <span class="negative"><i class="fa-solid fa-arrow-up"></i> 4,2%</span></small>
-          </div>
-        </div>
-
-        <div class="sales-kpi-card">
-          <div class="sales-kpi-icon orange-icon"><i class="fa-solid fa-circle-xmark"></i></div>
-          <div>
-            <p>Cancelados</p>
-            <h2>R$ 982,30</h2>
-            <small>6 vendas <span class="negative"><i class="fa-solid fa-arrow-up"></i> 2,1%</span></small>
-          </div>
-        </div>
-
-        <div class="sales-kpi-card">
-          <div class="sales-kpi-icon purple-icon"><i class="fa-regular fa-comments"></i></div>
-          <div>
-            <p>Reclamações</p>
-            <h2>R$ 320,50</h2>
-            <small>3 vendas <span class="positive"><i class="fa-solid fa-arrow-down"></i> 10%</span></small>
-          </div>
-        </div>
-      </section>
-
-      <section class="sales-filter-panel">
-        <div class="search-box sales-search">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input type="text" placeholder="Buscar por número, cliente, produto ou SKU...">
-        </div>
-
-        <div class="filter-control">
-          <label>Período</label>
-          <select>
-            <option>Últimos 30 dias</option>
-            <option>Hoje</option>
-            <option>7 dias</option>
-            <option>Este mês</option>
-          </select>
-        </div>
-
-        <div class="filter-control">
-          <label>Status</label>
-          <select>
-            <option>Todos</option>
-            <option>A caminho</option>
-            <option>Em trânsito</option>
-            <option>Entregue</option>
-            <option>Cancelado</option>
-          </select>
-        </div>
-
-        <button class="btn-clear"><i class="fa-solid fa-filter"></i> Filtros</button>
-        <button class="btn-clear">Limpar</button>
-      </section>
-
-      <section class="orders-list">
-        <article class="order-card">
-          <div class="order-topline">
-            <div class="order-meta">
-              <span class="checkbox-fake"></span>
-              <span class="ml-pill">ML</span>
-              <strong>#2000013215886851</strong>
-              <span>28 mai 13:49 hs</span>
-              <span>Airton Fagundes Jaques</span>
-            </div>
-            <div class="order-actions">
-              <span class="status-pill warning"><i class="fa-solid fa-truck"></i> A caminho</span>
-              <button>Acompanhar envio</button>
-              <i class="fa-regular fa-receipt"></i>
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </div>
-          </div>
-          <div class="order-product-row">
-            <img src="https://placehold.co/54x54/f3f4f6/94a3b8?text=Peça" alt="Produto">
-            <div class="order-product-name">Mola Patim Freio Dianteiro Traseiro Mercedes 3889937110</div>
-            <div class="order-data"><strong>R$ 11,62</strong><span>Valor unitário</span></div>
-            <div class="order-data"><strong>4 unid.</strong><span>Quantidade</span></div>
-            <div class="order-data"><strong>M005954</strong><span>SKU</span></div>
-          </div>
-        </article>
-
-        <article class="order-card">
-          <div class="order-topline">
-            <div class="order-meta">
-              <span class="checkbox-fake"></span>
-              <span class="ml-pill">ML</span>
-              <strong>#2000013214839972</strong>
-              <span>27 mai 11:22 hs</span>
-              <span>Lucas Nascimento Silva</span>
-            </div>
-            <div class="order-actions">
-              <span class="status-pill info"><i class="fa-solid fa-truck-fast"></i> Em trânsito</span>
-              <button>Acompanhar envio</button>
-              <i class="fa-regular fa-receipt"></i>
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </div>
-          </div>
-          <div class="order-product-row">
-            <img src="https://placehold.co/54x54/f3f4f6/94a3b8?text=Peça" alt="Produto">
-            <div class="order-product-name">Polia Correia Alternador Ford Ranger 3.2 2013 2014 2015</div>
-            <div class="order-data"><strong>R$ 85,90</strong><span>Valor unitário</span></div>
-            <div class="order-data"><strong>1 unid.</strong><span>Quantidade</span></div>
-            <div class="order-data"><strong>P008712</strong><span>SKU</span></div>
-          </div>
-        </article>
-
-        <article class="order-card">
-          <div class="order-topline">
-            <div class="order-meta">
-              <span class="checkbox-fake"></span>
-              <span class="ml-pill">ML</span>
-              <strong>#2000013213678843</strong>
-              <span>26 mai 09:15 hs</span>
-              <span>Carla Mendes de Oliveira</span>
-            </div>
-            <div class="order-actions">
-              <span class="status-pill success"><i class="fa-solid fa-circle-check"></i> Entregue</span>
-              <button>Ver detalhes</button>
-              <i class="fa-regular fa-receipt"></i>
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </div>
-          </div>
-          <div class="order-product-row">
-            <img src="https://placehold.co/54x54/f3f4f6/94a3b8?text=Peça" alt="Produto">
-            <div class="order-product-name">Sensor Posição Borboleta Tps Fiat Palio Siena 1.0 1.4 8v</div>
-            <div class="order-data"><strong>R$ 73,40</strong><span>Valor unitário</span></div>
-            <div class="order-data"><strong>1 unid.</strong><span>Quantidade</span></div>
-            <div class="order-data"><strong>S003215</strong><span>SKU</span></div>
-          </div>
-        </article>
-
-        <article class="order-card">
-          <div class="order-topline">
-            <div class="order-meta">
-              <span class="checkbox-fake"></span>
-              <span class="ml-pill">ML</span>
-              <strong>#2000013209983751</strong>
-              <span>25 mai 16:47 hs</span>
-              <span>Rafael Costa Pereira</span>
-            </div>
-            <div class="order-actions">
-              <span class="status-pill danger"><i class="fa-solid fa-circle-xmark"></i> Cancelado</span>
-              <button>Ver detalhes</button>
-              <i class="fa-regular fa-receipt"></i>
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </div>
-          </div>
-          <div class="order-product-row">
-            <img src="https://placehold.co/54x54/f3f4f6/94a3b8?text=Peça" alt="Produto">
-            <div class="order-product-name">Válvula Termostática GM Onix Prisma 1.0 1.4 2013 a 2019</div>
-            <div class="order-data"><strong>R$ 42,90</strong><span>Valor unitário</span></div>
-            <div class="order-data"><strong>1 unid.</strong><span>Quantidade</span></div>
-            <div class="order-data"><strong>V001876</strong><span>SKU</span></div>
-          </div>
-        </article>
-      </section>
-
-      <footer class="sales-footer">
-        <span>Mostrando 1 a 10 de 125 vendas</span>
-        <div class="pagination-wrap">
-          <button class="page-size">10 por página</button>
-          <button><i class="fa-solid fa-chevron-left"></i></button>
-          <button class="active">1</button>
-          <button>2</button>
-          <button>3</button>
-          <span>...</span>
-          <button>13</button>
-          <button><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
-      </footer>
-    </main>
+    <main class="content vendas-page"></main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/global.js"></script>
   <script src="../assets/js/vendas.js"></script>
+  <script src="../assets/js/vendas-acoes.js"></script>
 </body>
 </html>
