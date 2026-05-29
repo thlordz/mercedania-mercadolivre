@@ -19,6 +19,7 @@
         <i class="fa-solid fa-cart-shopping"></i>
         <span>Gestão de Vendas</span>
       </div>
+
       <nav class="menu">
         <a class="menu-item" data-page="inicio" href="inicio.html"><i class="fa-solid fa-house"></i> Início</a>
         <a class="menu-item" data-page="promocoes" href="promocoes.html"><i class="fa-solid fa-percent"></i> Promoções</a>
@@ -27,7 +28,91 @@
         <a class="menu-item" data-page="simulador" href="simulador.html"><i class="fa-solid fa-calculator"></i> Simulador de Custos</a>
       </nav>
     </aside>
-    <main class="content vendas-page"></main>
+
+    <main class="content vendas-page">
+      <div class="page-header vendas-header">
+        <div>
+          <h1>Vendas</h1>
+          <p>Acompanhe todas as suas vendas realizadas no Mercado Livre.</p>
+        </div>
+      </div>
+
+      <section class="sales-kpi-grid">
+        <div class="sales-kpi-card">
+          <div class="sales-kpi-icon yellow-icon"><i class="fa-solid fa-sack-dollar"></i></div>
+          <div>
+            <p>Total faturado</p>
+            <h2>R$ 28.543,60</h2>
+            <small>125 vendas <span class="positive"><i class="fa-solid fa-arrow-up"></i> 12,5%</span></small>
+          </div>
+        </div>
+
+        <div class="sales-kpi-card">
+          <div class="sales-kpi-icon red-icon"><i class="fa-solid fa-rotate-left"></i></div>
+          <div>
+            <p>Devoluções</p>
+            <h2>R$ 1.487,90</h2>
+            <small>8 vendas <span class="negative"><i class="fa-solid fa-arrow-up"></i> 4,2%</span></small>
+          </div>
+        </div>
+
+        <div class="sales-kpi-card">
+          <div class="sales-kpi-icon orange-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+          <div>
+            <p>Cancelados</p>
+            <h2>R$ 982,30</h2>
+            <small>6 vendas <span class="negative"><i class="fa-solid fa-arrow-up"></i> 2,1%</span></small>
+          </div>
+        </div>
+
+        <div class="sales-kpi-card">
+          <div class="sales-kpi-icon purple-icon"><i class="fa-regular fa-comments"></i></div>
+          <div>
+            <p>Reclamações</p>
+            <h2>R$ 320,50</h2>
+            <small>3 vendas <span class="positive"><i class="fa-solid fa-arrow-down"></i> 10%</span></small>
+          </div>
+        </div>
+      </section>
+
+      <section class="sales-filter-panel">
+        <div class="search-box sales-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Buscar por número, cliente, produto ou SKU...">
+        </div>
+
+        <div class="filter-control">
+          <label>Período</label>
+          <select>
+            <option>Últimos 30 dias</option>
+            <option>Hoje</option>
+            <option>7 dias</option>
+            <option>Este mês</option>
+          </select>
+        </div>
+
+        <div class="filter-control">
+          <label>Status</label>
+          <select>
+            <option>Todos</option>
+            <option>A caminho</option>
+            <option>Em trânsito</option>
+            <option>Entregue</option>
+            <option>Cancelado</option>
+          </select>
+        </div>
+
+        <button class="btn-clear"><i class="fa-solid fa-filter"></i> Filtros</button>
+        <button class="btn-clear">Limpar</button>
+      </section>
+
+      <section class="orders-list"></section>
+
+      <footer class="sales-footer">
+        <span>Mostrando 0 a 0 de 0 vendas</span>
+        <div class="pagination-wrap"></div>
+      </footer>
+    </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/global.js"></script>
