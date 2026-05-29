@@ -1,0 +1,130 @@
+.sale-action-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.sale-action-button {
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 !important;
+}
+
+.sale-action-button:hover {
+  background: #f1f5f9 !important;
+}
+
+.sale-action-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 30;
+  min-width: 178px;
+  padding: 6px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, .14);
+  display: none;
+}
+
+.sale-action-menu.show {
+  display: block;
+}
+
+.delete-sale-option {
+  width: 100%;
+  min-width: 0 !important;
+  height: 38px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: #dc2626 !important;
+  font-weight: 850;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 0 10px !important;
+}
+
+.delete-sale-option:hover {
+  background: #fee2e2 !important;
+}
+
+.delete-sale-modal {
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.delete-sale-modal .modal-header {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--border);
+}
+
+.delete-sale-modal .modal-body {
+  padding: 20px 22px;
+}
+
+.delete-sale-text {
+  margin: 0 0 12px;
+  color: #334155;
+  font-weight: 700;
+}
+
+.delete-sale-info {
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fff7f7;
+  padding: 12px 14px;
+  display: grid;
+  gap: 4px;
+}
+
+.delete-sale-info strong {
+  color: #111827;
+}
+
+.delete-sale-info span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.delete-sale-modal .btn-danger {
+  font-weight: 850;
+}
+
+.sale-toast {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 9999;
+  min-width: 250px;
+  max-width: 340px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #111827;
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, .2);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+.sale-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.sale-toast.error {
+  background: #dc2626;
+}
