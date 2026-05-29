@@ -9,4 +9,5 @@ contextBridge.exposeInMainWorld('mercadoApp', {
   atualizarAnuncio: (payload) => ipcRenderer.invoke('anuncios:update', payload),
   atualizarPromocao: (payload) => ipcRenderer.invoke('promocoes:update', payload),
   criarVenda: (payload) => ipcRenderer.invoke('vendas:create', payload),
+  excluirVenda: (id) => ipcRenderer.invoke('vendas:delete', id),
 });
