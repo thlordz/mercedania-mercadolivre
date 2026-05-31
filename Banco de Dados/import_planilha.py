@@ -202,8 +202,8 @@ def import_to_db(planilha, db_path, schema_path):
             INSERT OR REPLACE INTO anuncios
             (codigo_produto, sku, nome, status, tipo_anuncio, valor_total, frete, tarifa,
              custo_fixo, desconto, preco_anunciado, liquido_receber, estoque,
-             quantidade_vendida, ultima_atualizacao_preco, link_anuncio)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+             quantidade_vendida, ultima_atualizacao_preco, link_anuncio, ordem_importacao)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 codigo,
@@ -222,6 +222,7 @@ def import_to_db(planilha, db_path, schema_path):
                 to_int_from_text(row[12]),
                 None,
                 link,
+                anuncios_count + 1,
             ),
         )
         anuncios_count += 1

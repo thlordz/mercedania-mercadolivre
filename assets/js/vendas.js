@@ -8,11 +8,16 @@ let state = { page: 1, pageSize: 10 };
 let step = 1;
 let productResults = [];
 let activeProductResult = -1;
+let cepLiberado = false;
+
+const SALE_DETAIL_URL_PREFIX = 'https://www.mercadolivre.com.br/vendas/';
+const SALE_DETAIL_URL_SUFFIX = '/detalhe?callbackUrl=https%3A%2F%2Fwww.mercadolivre.com.br%2Fvendas%2Fomni%2Flista%3Fplatform.id%3DML%26channel%3Dmarketshops%26filters%3D%26sort%3D%26page%3D1%26search%3D%26startPeriod%3DWITH_DATE_CLOSED_2M_OLD%26toCurrent%3D%26fromCurrent%3D';
 
 const query = getQuery();
 const searchInput = document.querySelector('.sales-filter-panel .search-box input');
 const periodSelect = document.querySelectorAll('.sales-filter-panel select')[0];
 const statusSelect = document.querySelectorAll('.sales-filter-panel select')[1];
+const SALE_STATUSES = ['A caminho', 'Em trânsito', 'Entregue', 'Cancelado'];
 
 function statusClass(status) {
   const value = String(status || '').toLowerCase();
@@ -20,6 +25,19 @@ function statusClass(status) {
   if (value.includes('cancel')) return 'danger';
   if (value.includes('trânsito') || value.includes('enviado')) return 'info';
   return 'warning';
+}
+
+function vendaNumeroSemHash(value) {
+  return String(value || '').replace(/\D/g, '');
+}
+
+function vendaDetalheUrl(numeroVenda) {
+  const numero = vendaNumeroSemHash(numeroVenda);
+  return numero ? `${SALE_DETAIL_URL_PREFIX}${numero}${SALE_DETAIL_URL_SUFFIX}` : '';
+}
+
+function anuncioAtivo(anuncio) {
+  return String(anuncio?.status || '').toLowerCase().startsWith('ativ');
 }
 
 function injectNewSaleModal() {
@@ -48,13 +66,13 @@ function injectNewSaleModal() {
             <section class="sale-step-panel" data-step="1">
               <div class="sale-form-grid">
                 <div>
-                  <label>Número da venda *</label>
+                  <label>Número da venda <span class="required-star">*</span></label>
                   <input class="form-control" name="numero_venda" id="saleNumber" required maxlength="17" placeholder="#2000013215886851">
-                  <label>Data da venda *</label>
+                  <label>Data da venda <span class="required-star">*</span></label>
                   <input class="form-control" type="date" name="data_venda" required>
-                  <label>Status da venda *</label>
+                  <label>Status da venda <span class="required-star">*</span></label>
                   <select class="form-select" name="status"><option>A caminho</option><option>Em trânsito</option><option>Entregue</option><option>Cancelado</option></select>
-                  <label>Cliente *</label>
+                  <label>Nome do Cliente <span class="required-star">*</span></label>
                   <input class="form-control" name="cliente_nome" required>
                   <label>CPF/CNPJ</label>
                   <input class="form-control" name="cliente_documento" id="saleDocument" inputmode="numeric" placeholder="CPF ou CNPJ">
@@ -65,7 +83,7 @@ function injectNewSaleModal() {
             <section class="sale-step-panel d-none" data-step="2">
               <div class="sale-form-grid">
                 <div>
-                  <label>Buscar anúncio</label>
+                  <label>Buscar anúncio <span class="required-star">*</span></label>
                   <input class="form-control" id="saleProductSearch" placeholder="Nome, SKU ou código">
                   <div class="sale-product-results"></div>
                   <h6 class="mt-3 fw-bold">Produtos adicionados</h6>
@@ -84,8 +102,8 @@ function injectNewSaleModal() {
                     </div>
                     <div class="values-section">
                       <div><strong>Tarifa de venda total</strong><span id="feeTotalPreview">-R$ 0,00</span></div>
-                      <label>Tarifa total</label>
-                      <input class="form-control money-input" name="tarifa_venda_total" inputmode="numeric" placeholder="R$ 0,00">
+                      <label>Tarifa total <span class="required-star">*</span></label>
+                      <input class="form-control money-input" name="tarifa_venda_total" inputmode="numeric" placeholder="R$ 0,00" required>
                     </div>
                     <div class="values-section">
                       <div><strong>Envios</strong><span id="shippingTotalPreview">-R$ 0,00</span></div>
@@ -104,13 +122,13 @@ function injectNewSaleModal() {
             <section class="sale-step-panel d-none" data-step="4">
               <div class="sale-form-grid">
                 <div>
-                  <label>CEP</label>
+                  <label>CEP <span class="required-star">*</span></label>
                   <div class="cep-row">
-                    <input class="form-control" name="cep" id="saleCep" maxlength="9" placeholder="01001-000">
+                    <input class="form-control" name="cep" id="saleCep" maxlength="9" placeholder="01001-000" required>
                     <button type="button" class="btn btn-light border" id="lookupCepButton"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
                   </div>
                   <small class="cep-feedback" id="cepFeedback"></small>
-                  <div class="row g-3">
+                  <div class="row g-3 sale-delivery-fields is-locked">
                     <div class="col-md-8">
                       <label>Endereço</label>
                       <input class="form-control" name="logradouro">
@@ -136,8 +154,6 @@ function injectNewSaleModal() {
                       <input class="form-control" name="uf" maxlength="2">
                     </div>
                   </div>
-                  <label>Link da venda ou envio</label>
-                  <input class="form-control" name="link_venda">
                   <label>Informações de entrega</label>
                   <textarea class="form-control" name="entrega" rows="4"></textarea>
                 </div>
@@ -160,10 +176,13 @@ function injectNewSaleModal() {
 
   document.querySelector('#newSaleButton').addEventListener('click', () => {
     saleItems = [];
+    cepLiberado = false;
     step = 1;
     document.querySelector('#newSaleForm').reset();
     document.querySelector('[name="data_venda"]').value = new Date().toISOString().slice(0, 10);
     document.querySelector('[name="numero_venda"]').value = '#';
+    clearSaleValidation();
+    setDeliveryFieldsLocked(true);
     renderSaleItems();
     renderSaleStep();
     bootstrap.Modal.getOrCreateInstance(document.querySelector('#newSaleModal'), { keyboard: false }).show();
@@ -179,12 +198,57 @@ function injectNewSaleModal() {
   document.querySelector('#lookupCepButton').addEventListener('click', lookupCep);
   document.querySelector('#saleCep').addEventListener('input', handleCepInput);
   document.querySelector('#saleCep').addEventListener('blur', lookupCep);
+  document.querySelector('#newSaleForm').addEventListener('input', event => clearFieldError(event.target));
+  document.querySelector('#newSaleForm').addEventListener('change', event => clearFieldError(event.target));
   document.querySelector('#prevSaleStep').addEventListener('click', () => { if (step > 1) step -= 1; renderSaleStep(); });
   document.querySelector('#nextSaleStep').addEventListener('click', handleNextStep);
+  setDeliveryFieldsLocked(true);
 }
 
 function onlyCepDigits(value) {
   return String(value || '').replace(/\D/g, '').slice(0, 8);
+}
+
+function clearFieldError(field) {
+  if (!field?.classList) return;
+  field.classList.remove('is-invalid');
+  field.previousElementSibling?.classList?.remove('sale-label-invalid');
+  field.closest('.values-section')?.querySelector('label')?.classList.remove('sale-label-invalid');
+  field.parentElement?.querySelector(':scope > .sale-field-error')?.remove();
+  field.closest('.cep-row')?.parentElement?.querySelector(':scope > .sale-field-error')?.remove();
+}
+
+function clearSaleValidation() {
+  const form = document.querySelector('#newSaleForm');
+  if (!form) return;
+  form.querySelectorAll('.is-invalid').forEach(field => field.classList.remove('is-invalid'));
+  form.querySelectorAll('.sale-label-invalid').forEach(label => label.classList.remove('sale-label-invalid'));
+  form.querySelectorAll('.sale-field-error').forEach(error => error.remove());
+}
+
+function markFieldInvalid(field, message) {
+  if (!field) return null;
+  field.classList.add('is-invalid');
+  const label = field.previousElementSibling?.tagName === 'LABEL'
+    ? field.previousElementSibling
+    : field.closest('.values-section')?.querySelector('label');
+  label?.classList.add('sale-label-invalid');
+
+  const cepRow = field.closest('.cep-row');
+  const parent = cepRow?.parentElement || field.parentElement;
+  parent?.querySelector(':scope > .sale-field-error')?.remove();
+  (cepRow || field).insertAdjacentHTML('afterend', `<small class="sale-field-error">${message}</small>`);
+  return field;
+}
+
+function setDeliveryFieldsLocked(locked) {
+  const deliveryFields = document.querySelector('.sale-delivery-fields');
+  deliveryFields?.classList.toggle('is-locked', locked);
+  deliveryFields?.querySelectorAll('input, textarea, select').forEach(field => {
+    field.disabled = locked;
+  });
+  const entrega = document.querySelector('[name="entrega"]');
+  if (entrega) entrega.disabled = locked;
 }
 
 function handleSaleNumberInput(event) {
@@ -261,29 +325,37 @@ function setCepFeedback(message, type = '') {
 
 function handleCepInput(event) {
   event.target.value = formatCep(event.target.value);
+  cepLiberado = false;
+  setDeliveryFieldsLocked(true);
   setCepFeedback('');
 }
 
 async function lookupCep() {
   const cepInput = document.querySelector('#saleCep');
   const cep = onlyCepDigits(cepInput.value);
-  if (!cep) return;
+  if (!cep) return false;
   if (!/^\d{8}$/.test(cep)) {
+    cepLiberado = false;
+    setDeliveryFieldsLocked(true);
     setCepFeedback('Informe um CEP com 8 dígitos.', 'error');
-    return;
+    return false;
   }
 
   setCepFeedback('Buscando endereço...', 'loading');
   try {
     const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     if (!response.ok) {
+      cepLiberado = false;
+      setDeliveryFieldsLocked(true);
       setCepFeedback('CEP inválido. Confira os 8 dígitos.', 'error');
-      return;
+      return false;
     }
     const data = await response.json();
     if (data.erro) {
+      cepLiberado = false;
+      setDeliveryFieldsLocked(true);
       setCepFeedback('CEP não encontrado na base do ViaCEP.', 'error');
-      return;
+      return false;
     }
 
     const form = document.querySelector('#newSaleForm');
@@ -292,12 +364,18 @@ async function lookupCep() {
     form.elements.bairro.value = data.bairro || '';
     form.elements.cidade.value = data.localidade || '';
     form.elements.uf.value = data.uf || '';
-    form.elements.complemento_endereco.value = data.complemento || form.elements.complemento_endereco.value;
+    cepLiberado = true;
+    setDeliveryFieldsLocked(false);
+    clearFieldError(cepInput);
     setCepFeedback('Endereço preenchido automaticamente.', 'success');
     form.elements.numero_endereco.focus();
+    return true;
   } catch (error) {
     console.error('Falha ao consultar ViaCEP:', error);
+    cepLiberado = false;
+    setDeliveryFieldsLocked(true);
     setCepFeedback('Não foi possível consultar o ViaCEP agora.', 'error');
+    return false;
   }
 }
 
@@ -310,7 +388,7 @@ function renderProductResults() {
     return;
   }
   productResults = anunciosBase
-    .filter(item => !term || `${item.nome} ${item.sku} ${item.codigo_produto}`.toLowerCase().includes(term))
+    .filter(item => anuncioAtivo(item) && (!term || `${item.nome} ${item.sku} ${item.codigo_produto}`.toLowerCase().includes(term)))
     .slice(0, 6);
   activeProductResult = productResults.length ? 0 : -1;
   document.querySelector('.sale-product-results').innerHTML = productResults.map((item, index) => `
@@ -463,19 +541,70 @@ function renderReview() {
   `;
 }
 
+function focusFirstInvalid(fields) {
+  fields.find(Boolean)?.focus();
+}
+
+function validateStepOne() {
+  const fields = [];
+  const saleNumber = document.querySelector('[name="numero_venda"]');
+  const date = document.querySelector('[name="data_venda"]');
+  const status = document.querySelector('[name="status"]');
+  const client = document.querySelector('[name="cliente_nome"]');
+
+  if (!/^#\d{16}$/.test(saleNumber.value)) {
+    fields.push(markFieldInvalid(saleNumber, 'Informe o número da venda com 16 dígitos.'));
+  }
+  if (!date.value) fields.push(markFieldInvalid(date, 'Informe a data da venda.'));
+  if (!status.value) fields.push(markFieldInvalid(status, 'Selecione o status da venda.'));
+  if (!client.value.trim()) fields.push(markFieldInvalid(client, 'Informe o nome do cliente.'));
+
+  focusFirstInvalid(fields);
+  return fields.length === 0;
+}
+
+function validateStepTwo() {
+  if (saleItems.length) return true;
+  const search = document.querySelector('#saleProductSearch');
+  markFieldInvalid(search, 'Adicione pelo menos um produto ativo à venda.');
+  search.focus();
+  return false;
+}
+
+function validateStepThree() {
+  const feeInput = document.querySelector('[name="tarifa_venda_total"]');
+  if (numberFromInput(feeInput.value) > 0) return true;
+  markFieldInvalid(feeInput, 'Informe a tarifa total da venda.');
+  feeInput.focus();
+  return false;
+}
+
+async function validateStepFour() {
+  const cepInput = document.querySelector('#saleCep');
+  const cep = onlyCepDigits(cepInput.value);
+
+  if (!/^\d{8}$/.test(cep)) {
+    setCepFeedback('Informe um CEP com 8 dígitos para liberar a entrega.', 'error');
+    markFieldInvalid(cepInput, 'Informe um CEP válido.');
+    cepInput.focus();
+    return false;
+  }
+
+  if (!cepLiberado) await lookupCep();
+  if (cepLiberado) return true;
+
+  markFieldInvalid(cepInput, 'Busque um CEP válido para continuar.');
+  cepInput.focus();
+  return false;
+}
+
 async function handleNextStep() {
   if (step === 1) {
-    const saleNumber = document.querySelector('[name="numero_venda"]').value;
-    if (!/^#\d{16}$/.test(saleNumber)) {
-      document.querySelector('[name="numero_venda"]').focus();
-      return;
-    }
+    if (!validateStepOne()) return;
   }
-  if (step === 2 && !saleItems.length) return;
-  if (step === 3 && numberFromInput(document.querySelector('[name="tarifa_venda_total"]').value) <= 0) {
-    document.querySelector('[name="tarifa_venda_total"]').focus();
-    return;
-  }
+  if (step === 2 && !validateStepTwo()) return;
+  if (step === 3 && !validateStepThree()) return;
+  if (step === 4 && !(await validateStepFour())) return;
   if (step < 5) {
     step += 1;
     renderSaleStep();
@@ -493,7 +622,7 @@ async function handleNextStep() {
     tarifa_venda_total: numberFromInput(data.tarifa_venda_total),
     envios_total: numberFromInput(data.envios_total),
     observacao: data.observacao,
-    link_venda: data.link_venda,
+    link_venda: vendaDetalheUrl(data.numero_venda),
     cep: onlyCepDigits(data.cep),
     logradouro: data.logradouro,
     numero_endereco: data.numero_endereco,
@@ -513,13 +642,20 @@ function applyFilters() {
   const period = periodSelect.value;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+  const nextMonthStart = new Date(today.getFullYear(), today.getMonth() + 1, 1);
   filtered = vendas.filter((venda) => {
     const haystack = `${venda.numero_venda} ${venda.cliente_nome} ${venda.produto_nome} ${venda.sku}`.toLowerCase();
     const date = venda.data_venda ? new Date(`${venda.data_venda}T00:00:00`) : null;
     const diff = date ? Math.ceil((today - date) / 86400000) : 99999;
+    const periodMatches = period === 'Todos'
+      || (period === 'Últimos 30 dias' && diff <= 30)
+      || (period === 'Hoje' && diff === 0)
+      || (period === '7 dias' && diff <= 7)
+      || (period === 'Este mês' && date && date >= monthStart && date < nextMonthStart);
     return (!search || haystack.includes(search))
       && (status === 'Todos' || venda.status === status)
-      && (period === 'Últimos 30 dias' ? diff <= 30 : period === 'Hoje' ? diff === 0 : period === '7 dias' ? diff <= 7 : true);
+      && periodMatches;
   });
   state.page = 1;
   render();
@@ -538,9 +674,11 @@ function renderVendas(lista) {
           <span>${venda.cliente_nome || '-'}</span>
         </div>
         <div class="order-actions">
-          <span class="status-pill ${statusClass(venda.status)}"><i class="fa-solid fa-truck"></i> ${venda.status || '-'}</span>
+          <select class="sale-status-inline status-pill ${statusClass(venda.status)}" data-sale-status="${venda.id}" aria-label="Alterar status da venda">
+            ${SALE_STATUSES.map(status => `<option value="${status}" ${status === venda.status ? 'selected' : ''}>${status}</option>`).join('')}
+          </select>
           <button data-open-sale="${venda.link_venda || ''}">${venda.link_venda ? 'Abrir venda' : 'Ver detalhes'}</button>
-          <i class="fa-regular fa-receipt"></i>
+          <button type="button" class="sale-invoice-button" data-sale-invoice="${venda.id}" aria-label="Nota fiscal"><i class="fa-regular fa-file-lines"></i></button>
           <i class="fa-solid fa-ellipsis-vertical"></i>
         </div>
       </div>
@@ -561,6 +699,30 @@ function renderVendas(lista) {
     button.addEventListener('click', (event) => {
       event.stopPropagation();
       if (button.dataset.openSale) window.open(button.dataset.openSale, '_blank');
+    });
+  });
+  container.querySelectorAll('[data-sale-status]').forEach(select => {
+    select.addEventListener('click', event => event.stopPropagation());
+    select.addEventListener('change', async () => {
+      const venda = vendas.find(item => Number(item.id) === Number(select.dataset.saleStatus));
+      if (!venda) return;
+      const previous = venda.status;
+      venda.status = select.value;
+      try {
+        await getApi().atualizarVenda({ ...venda, status: select.value });
+        await carregarVendas();
+      } catch (error) {
+        venda.status = previous;
+        select.value = previous;
+        console.error('Falha ao atualizar status:', error);
+        if (typeof mostrarToastVenda === 'function') mostrarToastVenda('Não foi possível atualizar o status.', true);
+      }
+    });
+  });
+  container.querySelectorAll('[data-sale-invoice]').forEach(button => {
+    button.addEventListener('click', event => {
+      event.stopPropagation();
+      if (typeof abrirModalNotaFiscal === 'function') abrirModalNotaFiscal(Number(button.dataset.saleInvoice));
     });
   });
 }
@@ -607,7 +769,7 @@ document.querySelectorAll('.sales-filter-panel .btn-clear').forEach((button, ind
     if (index === 0) applyFilters();
     else {
       searchInput.value = '';
-      periodSelect.value = 'Últimos 30 dias';
+      periodSelect.value = 'Todos';
       statusSelect.value = 'Todos';
       applyFilters();
     }

@@ -10,38 +10,57 @@ function setupSalePopupUx() {
     #newSaleForm label:has(+ [name="observacao"]),
     #newSaleForm [name="entrega"],
     #newSaleForm label:has(+ [name="entrega"]) { display: none !important; }
-    .sale-status-visual { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 8px 0 12px; }
-    .sale-status-choice { border: 1px solid var(--border); border-radius: 10px; background: #fff; min-height: 42px; font-weight: 850; color: #334155; }
-    .sale-status-choice.active { border-color: #111; box-shadow: 0 0 0 2px var(--yellow); color: #111; }
-    .sale-status-choice[data-status="A caminho"] { background: #fff7d6; }
-    .sale-status-choice[data-status="Em trânsito"] { background: #dbeafe; }
-    .sale-status-choice[data-status="Entregue"] { background: #dcfce7; }
-    .sale-status-choice[data-status="Cancelado"] { background: #fee2e2; }
+    #newSaleForm [name="status"] {
+      border-color: transparent;
+      font-weight: 850;
+      color: #111827;
+      transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease;
+    }
+    #newSaleForm [name="status"]:focus {
+      box-shadow: 0 0 0 3px rgba(250, 204, 21, .2);
+    }
+    #newSaleForm [name="status"].sale-status-warning { background-color: #fff7d6; border-color: #facc15; }
+    #newSaleForm [name="status"].sale-status-info { background-color: #dbeafe; border-color: #bfdbfe; }
+    #newSaleForm [name="status"].sale-status-success { background-color: #dcfce7; border-color: #bbf7d0; }
+    #newSaleForm [name="status"].sale-status-danger { background-color: #fee2e2; border-color: #fecaca; }
+    #newSaleForm [name="status"] option {
+      color: #111827;
+      font-weight: 800;
+    }
   `;
   document.head.appendChild(style);
 
   const statusSelect = form.querySelector('[name="status"]');
-  if (statusSelect && !form.querySelector('.sale-status-visual')) {
-    const visual = document.createElement('div');
-    visual.className = 'sale-status-visual';
-    visual.innerHTML = ['A caminho', 'Em trânsito', 'Entregue', 'Cancelado'].map(status => `
-      <button type="button" class="sale-status-choice" data-status="${status}">${status}</button>
-    `).join('');
-    statusSelect.insertAdjacentElement('afterend', visual);
+  if (statusSelect) {
+    form.querySelector('.sale-status-visual')?.remove();
 
-    const syncStatus = () => {
-      visual.querySelectorAll('.sale-status-choice').forEach(button => {
-        button.classList.toggle('active', button.dataset.status === statusSelect.value);
-      });
+    const optionStyles = {
+      'A caminho': { className: 'sale-status-warning', background: '#fff7d6' },
+      'Em trânsito': { className: 'sale-status-info', background: '#dbeafe' },
+      Entregue: { className: 'sale-status-success', background: '#dcfce7' },
+      Cancelado: { className: 'sale-status-danger', background: '#fee2e2' },
     };
 
-    visual.querySelectorAll('.sale-status-choice').forEach(button => {
-      button.addEventListener('click', () => {
-        statusSelect.value = button.dataset.status;
-        syncStatus();
-      });
+    statusSelect.querySelectorAll('option').forEach(option => {
+      const styleConfig = optionStyles[option.value];
+      if (!styleConfig) return;
+      option.style.backgroundColor = styleConfig.background;
     });
+
+    const syncStatus = () => {
+      statusSelect.classList.remove(
+        'sale-status-warning',
+        'sale-status-info',
+        'sale-status-success',
+        'sale-status-danger',
+      );
+      const styleConfig = optionStyles[statusSelect.value];
+      if (styleConfig) statusSelect.classList.add(styleConfig.className);
+    };
+
     statusSelect.addEventListener('change', syncStatus);
+    form.addEventListener('reset', () => setTimeout(syncStatus, 0));
+    document.querySelector('#newSaleModal')?.addEventListener('shown.bs.modal', syncStatus);
     syncStatus();
   }
 
@@ -70,13 +89,6 @@ function setupSalePopupUx() {
     if (event.key === '*') {
       event.preventDefault();
       document.querySelector('#nextSaleStep')?.click();
-      return;
-    }
-
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      if (currentStep > 1) document.querySelector('#prevSaleStep')?.click();
-      else bootstrap.Modal.getInstance(document.querySelector('#newSaleModal'))?.hide();
       return;
     }
 

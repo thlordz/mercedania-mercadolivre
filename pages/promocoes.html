@@ -37,7 +37,7 @@
 
         <button class="btn-reactivate" data-bs-toggle="modal" data-bs-target="#reactivateModal">
           <i class="fa-solid fa-bolt"></i>
-          Reativar Expiradas <span>24</span>
+          Reativar Expiradas <span>0</span>
         </button>
       </div>
 
@@ -46,7 +46,7 @@
           <div class="status-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
           <div>
             <p>Expirado</p>
-            <strong>24</strong>
+            <strong>0</strong>
             <span>promoções</span>
           </div>
         </div>
@@ -64,7 +64,7 @@
           <div class="status-icon"><i class="fa-solid fa-circle-check"></i></div>
           <div>
             <p>Ativado</p>
-            <strong>63</strong>
+            <strong>0</strong>
             <span>promoções</span>
           </div>
         </div>
@@ -73,7 +73,7 @@
           <div class="status-icon"><i class="fa-solid fa-circle-minus"></i></div>
           <div>
             <p>Sem Promoção</p>
-            <strong>41</strong>
+            <strong>0</strong>
             <span>promoções</span>
           </div>
         </div>
@@ -106,6 +106,15 @@
           </select>
         </div>
 
+        <div class="filter-control">
+          <label>Anúncios</label>
+          <select>
+            <option>Ativos</option>
+            <option>Pausados</option>
+            <option>Todos</option>
+          </select>
+        </div>
+
         <div class="date-control">
           <label>Data início</label>
           <input type="text" placeholder="dd/mm/aaaa">
@@ -126,16 +135,11 @@
           <table class="table align-middle promo-table">
             <thead>
               <tr>
+                <th>Produto</th>
+                <th>Período da promoção</th>
                 <th>Status</th>
-                <th>Código</th>
-                <th>SKU</th>
-                <th>Nome do anúncio</th>
-                <th>Data início</th>
-                <th>Data fim</th>
-                <th>Preço</th>
-                <th>Desconto</th>
-                <th>Preço final</th>
-                <th class="text-center">Ações</th>
+                <th>Preço atual</th>
+                <th>Preço promocional</th>
               </tr>
             </thead>
             <tbody>
@@ -264,7 +268,7 @@
             <div class="modal-icon"><i class="fa-solid fa-bolt"></i></div>
             <div>
               <h5 class="modal-title">Reativar promoções expiradas</h5>
-              <p>Sessão ativa até finalizar</p>
+              <p>Preencha o período e comece quando estiver pronto</p>
             </div>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
@@ -272,7 +276,7 @@
 
         <div class="modal-body">
           <div class="reactivation-progress">
-            <strong>Promoção <span>12</span> de <span>24</span></strong>
+            <strong>Promoção <span>0</span> de <span>0</span></strong>
             <div class="progress"><div class="progress-bar"></div></div>
           </div>
 
@@ -292,13 +296,13 @@
               <div class="discount-box">
                 <small>Desconto da promoção</small>
                 <strong>5%</strong>
-                <span><i class="fa-regular fa-clipboard"></i> Copiado!</span>
+                <span class="discount-copy-label"><i class="fa-regular fa-clipboard"></i> Será copiado</span>
               </div>
             </div>
             <div class="col-md-6">
               <div class="info-box">
                 <i class="fa-solid fa-circle-info"></i>
-                O link do anúncio será aberto automaticamente ao avançar.
+                Informe as datas da promoção. Ao clicar em Começar, o primeiro item será exibido, o desconto será copiado e o link abrirá após 3 segundos.
               </div>
             </div>
           </div>
@@ -307,23 +311,29 @@
             <label>Período da promoção <span>(fixo nesta sessão)</span></label>
             <div class="row g-3">
               <div class="col-md-6">
-                <input type="text" class="form-control" value="28/05/2025">
+                <input type="text" class="form-control" data-session-start placeholder="Data início">
               </div>
               <div class="col-md-6">
-                <input type="text" class="form-control" value="04/06/2025">
+                <input type="text" class="form-control" data-session-end placeholder="Data fim">
               </div>
             </div>
+            <small class="session-date-feedback">Digite as datas no formato dd/mm/aaaa.</small>
+            <label class="skip-countdown-option">
+              <input type="checkbox" data-skip-countdown>
+              <span>Abrir link direto, sem contagem</span>
+            </label>
           </div>
 
           <div class="shortcut-box">
-            <p><kbd>ENTER</kbd> avança para a próxima promoção, copia o desconto e abre o link.</p>
+            <p><kbd>ENTER</kbd> começa ou avança, copiando o desconto e abrindo o anúncio exibido após a contagem.</p>
             <p><kbd>ESC</kbd> finaliza a sessão.</p>
           </div>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="btn btn-light" data-bs-dismiss="modal">Finalizar sessão</button>
-          <button type="button" class="btn btn-next"><i class="fa-solid fa-arrow-right"></i> Próxima promoção</button>
+          <button type="button" class="btn btn-light btn-finish-session" data-bs-dismiss="modal">Finalizar sessão</button>
+          <button type="button" class="btn btn-skip"><i class="fa-solid fa-forward-step"></i> Pular</button>
+          <button type="button" class="btn btn-next"><i class="fa-solid fa-play"></i> Começar</button>
         </div>
       </div>
     </div>

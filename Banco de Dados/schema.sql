@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS anuncios (
   quantidade_vendida INTEGER DEFAULT 0,
   ultima_atualizacao_preco TEXT,
   link_anuncio TEXT,
+  ordem_importacao INTEGER DEFAULT 0,
   created_at TEXT DEFAULT CURRENT_TIMESTAMP,
   updated_at TEXT DEFAULT CURRENT_TIMESTAMP
 );

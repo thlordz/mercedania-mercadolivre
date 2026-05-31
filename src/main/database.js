@@ -27,6 +27,7 @@ function ensureColumn(database, table, name, definition) {
 
 function migrate(database) {
   ensureColumn(database, 'anuncios', 'foto_url', 'TEXT');
+  ensureColumn(database, 'anuncios', 'ordem_importacao', 'INTEGER DEFAULT 0');
   ensureColumn(database, 'vendas', 'foto_url', 'TEXT');
   ensureColumn(database, 'vendas', 'cliente_documento', 'TEXT');
   ensureColumn(database, 'vendas', 'tarifa_venda_total', 'REAL DEFAULT 0');
@@ -38,6 +39,9 @@ function migrate(database) {
   ensureColumn(database, 'vendas', 'bairro', 'TEXT');
   ensureColumn(database, 'vendas', 'cidade', 'TEXT');
   ensureColumn(database, 'vendas', 'uf', 'TEXT');
+  ensureColumn(database, 'vendas', 'nota_fiscal', 'TEXT');
+  ensureColumn(database, 'vendas', 'nota_fiscal_nome', 'TEXT');
+  ensureColumn(database, 'vendas', 'updated_at', 'TEXT');
   database.exec(`
     CREATE TABLE IF NOT EXISTS venda_itens (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -54,6 +58,19 @@ function migrate(database) {
       FOREIGN KEY (anuncio_id) REFERENCES anuncios(id) ON DELETE SET NULL
     );
   `);
+  refreshPromocaoStatuses(database);
+}
+
+function refreshPromocaoStatuses(database = getDb()) {
+  database.exec(`
+    UPDATE promocoes
+    SET status = CASE
+      WHEN COALESCE(data_inicio, '') = '' AND COALESCE(data_fim, '') = '' THEN 'Sem Promoção'
+      WHEN COALESCE(data_fim, '') <> '' AND data_fim < DATE('now', 'localtime') THEN 'Expirado'
+      WHEN COALESCE(data_inicio, '') <> '' AND data_inicio > DATE('now', 'localtime') THEN 'Programado'
+      ELSE 'Ativado'
+    END
+  `);
 }
 
 function all(sql, params = {}) {
@@ -67,6 +84,7 @@ function get(sql, params = {}) {
 }
 
 function dashboard() {
+  refreshPromocaoStatuses();
   const vendas = get(`
     SELECT
       COUNT(*) AS total_vendas,
@@ -123,6 +141,7 @@ function anuncioById(id) {
 }
 
 function promocoesList({ search = '', status = '', limit = 50 } = {}) {
+  refreshPromocaoStatuses();
   const where = [];
   const params = { limit };
 
@@ -137,7 +156,7 @@ function promocoesList({ search = '', status = '', limit = 50 } = {}) {
   }
 
   return all(`
-    SELECT p.*, a.sku, a.foto_url
+    SELECT p.*, a.sku, a.foto_url, a.status AS anuncio_status
     FROM promocoes p
     LEFT JOIN anuncios a ON a.id = p.anuncio_id
     ${where.length ? `WHERE ${where.join(' AND ')}` : ''}
@@ -233,14 +252,63 @@ function updateAnuncio(payload) {
   return anuncioById(payload.id);
 }
 
+function createAnuncio(payload) {
+  const result = getDb().prepare(`
+    INSERT INTO anuncios
+    (codigo_produto, sku, nome, status, tipo_anuncio, valor_total, frete, tarifa,
+     custo_fixo, desconto, preco_anunciado, liquido_receber, estoque,
+     quantidade_vendida, ultima_atualizacao_preco, link_anuncio, foto_url)
+    VALUES
+    (:codigo_produto, :sku, :nome, :status, :tipo_anuncio, :valor_total, :frete, :tarifa,
+     :custo_fixo, :desconto, :preco_anunciado, :liquido_receber, :estoque,
+     :quantidade_vendida, :ultima_atualizacao_preco, :link_anuncio, :foto_url)
+  `).run({
+    codigo_produto: payload.codigo_produto || '',
+    sku: payload.sku || '',
+    nome: payload.nome || '',
+    status: payload.status || 'Ativado',
+    tipo_anuncio: payload.tipo_anuncio || 'Clássico',
+    valor_total: Number(payload.valor_total || 0),
+    frete: Number(payload.frete || 0),
+    tarifa: Number(payload.tarifa || 0),
+    custo_fixo: Number(payload.custo_fixo || 0),
+    desconto: Number(payload.desconto || 0),
+    preco_anunciado: Number(payload.preco_anunciado || 0),
+    liquido_receber: Number(payload.liquido_receber || 0),
+    estoque: Number(payload.estoque || 0),
+    quantidade_vendida: Number(payload.quantidade_vendida || 0),
+    ultima_atualizacao_preco: payload.ultima_atualizacao_preco || '',
+    link_anuncio: payload.link_anuncio || '',
+    foto_url: payload.foto_url || '',
+  });
+
+  return anuncioById(Number(result.lastInsertRowid));
+}
+
+function statusPromocaoPorDatas(dataInicio, dataFim) {
+  if (!dataInicio && !dataFim) return 'Sem Promoção';
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const start = dataInicio ? new Date(`${dataInicio}T00:00:00`) : null;
+  const end = dataFim ? new Date(`${dataFim}T00:00:00`) : null;
+  if (end && end < today) return 'Expirado';
+  if (start && start > today) return 'Programado';
+  return 'Ativado';
+}
+
 function updatePromocao(payload) {
+  const data = {
+    ...payload,
+    status: statusPromocaoPorDatas(payload.data_inicio, payload.data_fim),
+  };
   getDb().prepare(`
     UPDATE promocoes SET
       data_inicio = :data_inicio,
       data_fim = :data_fim,
+      status = :status,
       updated_at = CURRENT_TIMESTAMP
     WHERE id = :id
-  `).run(payload);
+  `).run(data);
   return get('SELECT * FROM promocoes WHERE id = ?', [payload.id]);
 }
 
@@ -314,6 +382,64 @@ function createVenda(payload) {
   }
 }
 
+function vendaById(id) {
+  return get('SELECT * FROM vendas WHERE id = ?', [Number(id)]);
+}
+
+function updateVenda(payload) {
+  const current = vendaById(payload.id);
+  if (!current) throw new Error('Venda não encontrada.');
+  const data = { ...current, ...payload };
+
+  getDb().prepare(`
+    UPDATE vendas SET
+      numero_venda = :numero_venda,
+      cliente_nome = :cliente_nome,
+      cliente_documento = :cliente_documento,
+      status = :status,
+      data_venda = :data_venda,
+      valor_receber = :valor_receber,
+      tarifa_venda_total = :tarifa_venda_total,
+      envios_total = :envios_total,
+      observacao = :observacao,
+      link_venda = :link_venda,
+      cep = :cep,
+      logradouro = :logradouro,
+      numero_endereco = :numero_endereco,
+      complemento_endereco = :complemento_endereco,
+      bairro = :bairro,
+      cidade = :cidade,
+      uf = :uf,
+      nota_fiscal = :nota_fiscal,
+      nota_fiscal_nome = :nota_fiscal_nome,
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = :id
+  `).run({
+    id: Number(data.id),
+    numero_venda: data.numero_venda || '',
+    cliente_nome: data.cliente_nome || '',
+    cliente_documento: data.cliente_documento || '',
+    status: data.status || '',
+    data_venda: data.data_venda || '',
+    valor_receber: Number(data.valor_receber || 0),
+    tarifa_venda_total: Number(data.tarifa_venda_total || 0),
+    envios_total: Number(data.envios_total || 0),
+    observacao: data.observacao || '',
+    link_venda: data.link_venda || '',
+    cep: data.cep || '',
+    logradouro: data.logradouro || '',
+    numero_endereco: data.numero_endereco || '',
+    complemento_endereco: data.complemento_endereco || '',
+    bairro: data.bairro || '',
+    cidade: data.cidade || '',
+    uf: data.uf || '',
+    nota_fiscal: data.nota_fiscal || '',
+    nota_fiscal_nome: data.nota_fiscal_nome || '',
+  });
+
+  return vendaById(data.id);
+}
+
 function deleteVenda(id) {
   const vendaId = Number(id);
   if (!Number.isInteger(vendaId) || vendaId <= 0) {
@@ -329,6 +455,7 @@ function deleteVenda(id) {
 }
 
 function stats() {
+  refreshPromocaoStatuses();
   return {
     dashboard: dashboard(),
     anuncios: get(`
@@ -360,8 +487,10 @@ module.exports = {
   promocoesList,
   vendasList,
   updateAnuncio,
+  createAnuncio,
   updatePromocao,
   createVenda,
+  updateVenda,
   deleteVenda,
   stats,
 };

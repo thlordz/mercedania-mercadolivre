@@ -103,8 +103,8 @@ function importSpreadsheet() {
       INSERT OR REPLACE INTO anuncios
       (codigo_produto, sku, nome, status, tipo_anuncio, valor_total, frete, tarifa,
        custo_fixo, desconto, preco_anunciado, liquido_receber, estoque,
-       quantidade_vendida, ultima_atualizacao_preco, link_anuncio)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+       quantidade_vendida, ultima_atualizacao_preco, link_anuncio, ordem_importacao)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     let anunciosCount = 0;
@@ -133,6 +133,7 @@ function importSpreadsheet() {
         toIntFromText(row[12]),
         null,
         link(workbook, 'Precificação de produto', `A${excelRow}`),
+        anunciosCount + 1,
       );
       anunciosCount += 1;
     }

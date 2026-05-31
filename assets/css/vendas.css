@@ -142,6 +142,16 @@
 .status-pill.info { background: #dbeafe; color: #0d6efd; }
 .status-pill.success { background: #dcfce7; color: #16803b; }
 .status-pill.danger { background: #fee2e2; color: #dc2626; }
+.sale-status-inline {
+  border: 0;
+  appearance: none;
+  cursor: pointer;
+  text-align: center;
+}
+.sale-status-inline:focus {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
 .order-actions button {
   height: 38px;
   min-width: 150px;
@@ -267,6 +277,22 @@
 
 .order-actions > i:hover { background: #f1f5f9; }
 
+.sale-invoice-button {
+  width: 34px !important;
+  min-width: 34px !important;
+  height: 34px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  display: inline-grid;
+  place-items: center;
+  padding: 0 !important;
+}
+
+.sale-invoice-button:hover {
+  background: #f1f5f9 !important;
+}
+
 @media (max-width: 1240px) {
   .sales-filter-panel {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -362,6 +388,29 @@
   padding: 20px 26px;
 }
 
+.required-star {
+  color: #dc2626;
+  font-weight: 900;
+}
+
+.new-sale-modal label.sale-label-invalid {
+  color: #dc2626;
+}
+
+.new-sale-modal .form-control.is-invalid,
+.new-sale-modal .form-select.is-invalid {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, .12) !important;
+}
+
+.sale-field-error {
+  display: block;
+  margin-top: 5px;
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 750;
+}
+
 .step-help {
   border-left: 1px solid var(--border);
   background: #fbfcff;
@@ -420,6 +469,17 @@
 .cep-feedback.success { color: var(--green); }
 .cep-feedback.error { color: var(--red); }
 .cep-feedback.loading { color: #8a6a00; }
+
+.sale-delivery-fields.is-locked {
+  opacity: .52;
+  pointer-events: none;
+}
+
+.sale-delivery-fields.is-locked input,
+.sale-delivery-fields.is-locked textarea,
+.sale-delivery-fields.is-locked select {
+  background: #f8fafc;
+}
 
 .values-summary {
   border: 1px solid var(--border);

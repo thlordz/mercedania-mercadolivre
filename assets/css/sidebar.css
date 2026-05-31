@@ -1,10 +1,9 @@
-
 .sidebar {
   width: var(--sidebar-width);
   min-height: 100vh;
-  background: #080808;
-  border-right: 1px solid #171717;
-  padding: 22px 12px;
+  background: #fff;
+  border-right: 1px solid #e8edf4;
+  padding: 24px 14px;
   position: fixed;
   top: 0;
   left: 0;
@@ -16,42 +15,130 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-weight: 800;
-  font-size: 16px;
-  margin-bottom: 30px;
-  padding: 0 10px;
-  white-space: nowrap;
-  color: #fff;
+  gap: 10px;
+  margin-bottom: 36px;
+  padding: 0 6px;
+  color: #172033;
 }
 
 .brand img {
-  width: 58px;
-  height: auto;
-  flex: 0 0 auto;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  object-fit: contain;
 }
 
-.brand i { color: var(--yellow); font-size: 22px; }
+.brand i {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 50%;
+  background: #fff6bf;
+  color: #d5a300;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
 
-.menu { display: flex; flex-direction: column; gap: 8px; }
+.brand span {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
 
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 13px 16px;
-  border-radius: var(--radius-sm);
-  color: #d7dbe2;
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 500;
-  transition: .18s ease;
+.brand strong,
+.brand > span:not(:has(strong)) {
+  color: #172033;
+  font-size: 13px;
+  line-height: 16px;
+  font-weight: 900;
   white-space: nowrap;
 }
 
-.menu-item i { width: 20px; color: #8f96a3; font-size: 17px; text-align: center; }
-.menu-item:hover, .menu-item.active { background: #1d1d1d; color: var(--yellow); }
-.menu-item.active i { color: var(--yellow); }
+.brand small {
+  color: #8a94a6;
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu::before {
+  content: "MENU";
+  margin: 0 0 8px 8px;
+  color: #a8b0bf;
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 900;
+  letter-spacing: .04em;
+}
+
+.menu::after {
+  content: "";
+  height: 1px;
+  background: #e8edf4;
+  margin: 26px 4px 0;
+}
+
+.menu-item {
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  color: #334155;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 800;
+  transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+  white-space: nowrap;
+  position: relative;
+}
+
+.menu-item i {
+  width: 20px;
+  color: #8a94a6;
+  font-size: 17px;
+  text-align: center;
+  transition: color .18s ease;
+}
+
+.menu-item:hover {
+  background: #f8fafc;
+  color: #172033;
+}
+
+.menu-item.active {
+  background: linear-gradient(90deg, #fff6cc, #fffaf0);
+  color: #c58b00;
+  box-shadow: 0 8px 18px rgba(245, 196, 0, .12);
+}
+
+.menu-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  border-radius: 999px;
+  background: #f4c400;
+}
+
+.menu-item.active i {
+  color: #d39a00;
+}
+
+.menu-item[data-page="simulador"] {
+  display: none;
+}
 
 @media (max-width: 760px) {
   .sidebar {
@@ -68,8 +155,22 @@
     padding: 0 4px;
   }
 
-  .brand img { width: 48px; }
-  .brand span { font-size: 14px; }
+  .brand img,
+  .brand i {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .brand strong,
+  .brand > span:not(:has(strong)) {
+    font-size: 13px;
+  }
+
+  .brand small {
+    font-size: 10px;
+  }
+
   .menu {
     flex-direction: row;
     overflow-x: auto;
@@ -77,8 +178,14 @@
     padding-bottom: 3px;
   }
 
+  .menu::before,
+  .menu::after {
+    display: none;
+  }
+
   .menu-item {
     min-width: max-content;
+    min-height: 40px;
     padding: 10px 12px;
     font-size: 13px;
   }

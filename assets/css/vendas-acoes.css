@@ -38,6 +38,7 @@
   display: block;
 }
 
+.edit-sale-option,
 .delete-sale-option {
   width: 100%;
   min-width: 0 !important;
@@ -52,6 +53,14 @@
   justify-content: flex-start;
   gap: 10px;
   padding: 0 10px !important;
+}
+
+.edit-sale-option {
+  color: #172033 !important;
+}
+
+.edit-sale-option:hover {
+  background: #f1f5f9 !important;
 }
 
 .delete-sale-option:hover {
@@ -127,4 +136,71 @@
 
 .sale-toast.error {
   background: #dc2626;
+}
+
+.edit-sale-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.edit-sale-grid label,
+.invoice-label {
+  color: #172033;
+  font-size: 13px;
+  font-weight: 850;
+}
+
+.invoice-dropzone {
+  width: 100%;
+  min-height: 148px;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #25314f;
+  display: grid;
+  place-items: center;
+  gap: 6px;
+  padding: 20px;
+  text-align: center;
+  transition: background .16s ease, border-color .16s ease, box-shadow .16s ease;
+}
+
+.invoice-dropzone i {
+  color: #dc2626;
+  font-size: 30px;
+}
+
+.invoice-dropzone strong {
+  font-size: 15px;
+}
+
+.invoice-dropzone span,
+.invoice-file-info span {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.invoice-dropzone:hover,
+.invoice-dropzone.drag-over,
+.invoice-dropzone:focus {
+  border-color: #111827;
+  background: #fffdf0;
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, .2);
+  outline: none;
+}
+
+.invoice-file-info {
+  margin-top: 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #fff;
+  padding: 10px 12px;
+  color: #172033;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.invoice-file-info strong,
+.invoice-file-info span {
+  display: block;
 }

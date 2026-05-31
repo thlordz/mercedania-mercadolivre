@@ -25,7 +25,7 @@ function setActiveMenu(page) {
   });
   const brand = document.querySelector('.brand');
   if (brand && !brand.querySelector('img')) {
-    brand.innerHTML = '<img src="../img/mercado-livre.png" alt="Mercado Livre"><span>Gestão de Vendas</span>';
+    brand.innerHTML = '<img src="../img/mercado-livre.png" alt="Mercado Livre"><span><strong>Gestão de Vendas</strong><small>Seu negócio, sob controle</small></span>';
   }
 }
 
