@@ -1,13 +1,50 @@
 const path = require('path');
+const fs = require('fs');
+const { app } = require('electron');
 const { DatabaseSync } = require('node:sqlite');
 
+app.setName('Mercado Livre Gestao');
+
 const rootDir = path.resolve(__dirname, '..', '..');
-const dbPath = path.join(rootDir, 'Banco de Dados', 'gestao_vendas.sqlite');
+
+function usesWritableUserData() {
+  return app.isPackaged || rootDir.includes('app.asar');
+}
+
+function appDataDir() {
+  if (!usesWritableUserData()) return path.join(rootDir, 'Banco de Dados');
+  return path.join(app.getPath('userData'), 'Banco de Dados');
+}
+
+function packagedSeedDbPath() {
+  return path.join(process.resourcesPath, 'Banco de Dados', 'gestao_vendas.sqlite');
+}
+
+function seedDbPath() {
+  const packagedPath = packagedSeedDbPath();
+  if (fs.existsSync(packagedPath)) return packagedPath;
+  return path.join(process.cwd(), 'Banco de Dados', 'gestao_vendas.sqlite');
+}
+
+function ensureWritableDatabase() {
+  const dataDir = appDataDir();
+  const targetPath = path.join(dataDir, 'gestao_vendas.sqlite');
+  fs.mkdirSync(dataDir, { recursive: true });
+
+  if (!fs.existsSync(targetPath) && usesWritableUserData()) {
+    const seedPath = seedDbPath();
+    if (fs.existsSync(seedPath)) fs.copyFileSync(seedPath, targetPath);
+  }
+
+  return targetPath;
+}
 
 let db;
+let dbPath;
 
 function getDb() {
   if (!db) {
+    dbPath = ensureWritableDatabase();
     db = new DatabaseSync(dbPath, { timeout: 1000 });
     db.exec('PRAGMA foreign_keys = ON');
     migrate(db);
@@ -480,7 +517,9 @@ function stats() {
 }
 
 module.exports = {
-  dbPath,
+  get dbPath() {
+    return dbPath || ensureWritableDatabase();
+  },
   dashboard,
   anuncioById,
   anunciosList,

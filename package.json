@@ -1,16 +1,51 @@
 {
   "name": "mercedania-mercadolivre",
   "version": "0.1.0",
-  "description": "Sistema desktop Electron para gestão de anúncios, promoções e vendas do Mercado Livre.",
+  "description": "Sistema desktop Electron para gestao de anuncios, promocoes e vendas do Mercado Livre.",
   "main": "src/main/main.js",
   "scripts": {
     "start": "electron .",
+    "dist": "electron-builder --win nsis",
     "import:planilha": "node scripts/import-planilha.js",
     "check:db": "node scripts/check-db.js"
   },
+  "build": {
+    "appId": "com.mercedania.mercadolivre",
+    "productName": "Mercado Livre Gestao",
+    "directories": {
+      "output": "dist"
+    },
+    "asar": false,
+    "files": [
+      "src/**/*",
+      "pages/**/*",
+      "assets/**/*",
+      "img/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "Banco de Dados/gestao_vendas.sqlite",
+        "to": "Banco de Dados/gestao_vendas.sqlite"
+      }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false,
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
   "dependencies": {
-    "electron": "^35.0.0",
     "xlsx": "^0.18.5"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "electron": "^35.0.0",
+    "electron-builder": "^26.8.1"
+  }
 }
